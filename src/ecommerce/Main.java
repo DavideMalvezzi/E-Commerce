@@ -1,10 +1,8 @@
 package ecommerce;
 
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
 
 import ecommerce.panel.LoginPanel;
+
 import ecommerce.user.UserManager;
 
 public class Main {
@@ -16,9 +14,6 @@ public class Main {
 		//Create login panel
 		PanelManager pm = new PanelManager();
 		pm.setCurrentPanel(new LoginPanel(pm));
-		
-		
-
 		
 	}
 	

@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class UserManager {
 	
 	//Users configuration file name
-	private static final String userFileName = ".e-users";
+	private static final String usersFileName = ".e-users";
 	
 	//Users map index by password hash
 	private static HashMap<Integer, User> users = null; 
@@ -18,8 +18,8 @@ public class UserManager {
 	public static void loadUsers(){
 		//Get the users configuration file path
 		String homeFolder = System.getProperty("user.home");
-		File usersFile = new File(homeFolder + File.separator + userFileName);
-		System.out.println(usersFile.getAbsolutePath());
+		File usersFile = new File(homeFolder + File.separator + usersFileName);
+		//System.out.println(usersFile.getAbsolutePath());
 		
 		//Check if the file exists
 		if(usersFile.exists()){
@@ -38,8 +38,21 @@ public class UserManager {
 		}
 	}
 	
-	public static int getUserCount(){
-		return users == null ? 0 : users.size();
+	public static void saveUsers(){
+		//Get the users configuration file path
+		String homeFolder = System.getProperty("user.home");
+		File usersFile = new File(homeFolder + File.separator + usersFileName);
+		
+		try {
+			//Save the serialized users hash map
+			FileOutputStream fos = new FileOutputStream(usersFile);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(users);
+			oos.flush();
+			oos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static void addUser(String name, String password){
@@ -52,23 +65,8 @@ public class UserManager {
 		users.put(newUser.getPasswordHash(), newUser);
 	}
 	
-	
-	public static void saveUsers(){
-		//Get the users configuration file path
-		String homeFolder = System.getProperty("user.home");
-		File usersFile = new File(homeFolder + File.separator + userFileName);
-		
-		try {
-			//Save the serialized users hash map
-			FileOutputStream fos = new FileOutputStream(usersFile);
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(users);
-			oos.flush();
-			oos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+	public static int getUserCount(){
+		return users == null ? 0 : users.size();
 	}
 	
 	public static boolean userExists(String name, String password){
@@ -93,7 +91,5 @@ public class UserManager {
 		
 		return null;
 	}
-	
-	
 
 }
