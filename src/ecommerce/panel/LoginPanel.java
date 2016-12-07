@@ -8,13 +8,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import ecommerce.PanelManager;
 import ecommerce.panel.dialog.CreateUserDialog;
 import ecommerce.user.User;
 import ecommerce.user.UserManager;
@@ -25,8 +25,10 @@ public class LoginPanel extends JPanel implements ActionListener {
 	private JPasswordField passwordField;
 	private JLabel errorLabel;
 	private JButton loginButton;
+	private PanelManager pm;
 
-	public LoginPanel(JFrame parentWindow) {	
+	public LoginPanel(PanelManager pm) {	
+		this.pm = pm;
 		//Check if at least one user exists
 		checkUsers();
 		//Create GUI components
@@ -105,7 +107,6 @@ public class LoginPanel extends JPanel implements ActionListener {
 		);
 	}
 	
-	
 	private void checkUsers(){
 		if(UserManager.getUserCount() == 0){
 			JOptionPane.showMessageDialog(this, "Benvenuto!\nAl momento non esistono utenti.\nInizia creando un utente amministratore");
@@ -125,7 +126,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 			passwordField.setEnabled(false);
 			User loginUser = UserManager.getUser(usernameField.getText(), new String(passwordField.getPassword()));
 			if(loginUser != null){
-				JOptionPane.showConfirmDialog(this, "Login ok");
+				if(loginUser.isAdmin()){
+					pm.setCurrentPanel("admin");
+				}
 			}
 			else{
 				usernameField.setEnabled(true);

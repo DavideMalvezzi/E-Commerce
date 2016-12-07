@@ -1,17 +1,26 @@
 package ecommerce;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import ecommerce.panel.AdminPanel;
+import ecommerce.panel.LoginPanel;
+
 
 public class PanelManager extends JFrame {
 	
-	private JPanel currentPanel;
+	private JPanel container;
 	
 	public PanelManager() {
-		currentPanel = null;
+
+		container = new JPanel(new CardLayout());
+		container.add(new LoginPanel(this), "login");
+		container.add(new AdminPanel(this), "admin");
+		
+		add(container);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		//setResizable(false);
@@ -22,12 +31,9 @@ public class PanelManager extends JFrame {
 		setVisible(true);
 	}
 	
-	public void setCurrentPanel(JPanel panel){
-		if(currentPanel != null){
-			remove(currentPanel);
-		}
-		currentPanel = panel;
-		add(panel);
+	public void setCurrentPanel(String panelName){
+		CardLayout cl = (CardLayout)(container.getLayout());
+        cl.show(container, panelName);
 	}
 	
 	

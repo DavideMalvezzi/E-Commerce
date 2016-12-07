@@ -15,6 +15,8 @@ public class UserManager {
 	//Users map index by password hash
 	private static HashMap<Integer, User> users = null; 
 	
+	private UserManager(){}
+	
 	public static void loadUsers(){
 		//Get the users configuration file path
 		String homeFolder = System.getProperty("user.home");
@@ -23,18 +25,21 @@ public class UserManager {
 		
 		//Check if the file exists
 		if(usersFile.exists()){
-			try {
+			System.out.println("Users file found");
+			try {				
 				//Load the serialized users hash map
 				FileInputStream fis = new FileInputStream(usersFile);
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				users = (HashMap<Integer, User>)ois.readObject();
-				ois.close();
+				ois.close();				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 		else{
-			users = new HashMap<Integer, User>();
+			System.out.println("Users file not found");
+
+			users = new HashMap<Integer, User>();			
 		}
 	}
 	
@@ -50,6 +55,8 @@ public class UserManager {
 			oos.writeObject(users);
 			oos.flush();
 			oos.close();
+			
+			System.out.println("Users file saved");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
