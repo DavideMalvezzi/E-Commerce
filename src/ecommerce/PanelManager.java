@@ -17,8 +17,8 @@ public class PanelManager extends JFrame {
 	public PanelManager() {
 
 		container = new JPanel(new CardLayout());
-		container.add(new LoginPanel(this), "login");
-		container.add(new AdminPanel(this), "admin");
+		container.add(new LoginPanel(this), LoginPanel.TAG);
+		container.add(new AdminPanel(this), AdminPanel.TAG);
 		
 		add(container);
 		
@@ -33,7 +33,10 @@ public class PanelManager extends JFrame {
 	
 	public void setCurrentPanel(String panelName){
 		CardLayout cl = (CardLayout)(container.getLayout());
+		
         cl.show(container, panelName);
+        
+        
 	}
 	
 	

@@ -19,7 +19,7 @@ public class ProductManager {
 	
 	}
 	
-	public static void loadProducts(){
+	public static boolean loadProducts(){
 		//Get the products configuration file path
 		String homeFolder = System.getProperty("user.home");
 		File usersFile = new File(homeFolder + File.separator + Configuration.getInstance().productFilePath);
@@ -33,6 +33,7 @@ public class ProductManager {
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				products = (Vector<Product>)ois.readObject();
 				ois.close();
+				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -41,6 +42,7 @@ public class ProductManager {
 			System.out.println("Products file not found");
 			products = new Vector<Product>();
 		}
+		return false;
 	}
 	
 	public static void saveProducts(){

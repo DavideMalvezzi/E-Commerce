@@ -17,7 +17,7 @@ public class UserManager {
 	
 	private UserManager(){}
 	
-	public static void loadUsers(){
+	public static boolean loadUsers(){
 		//Get the users configuration file path
 		String homeFolder = System.getProperty("user.home");
 		File usersFile = new File(homeFolder + File.separator + usersFileName);
@@ -31,7 +31,8 @@ public class UserManager {
 				FileInputStream fis = new FileInputStream(usersFile);
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				users = (HashMap<Integer, User>)ois.readObject();
-				ois.close();				
+				ois.close();
+				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -41,6 +42,7 @@ public class UserManager {
 
 			users = new HashMap<Integer, User>();			
 		}
+		return false;
 	}
 	
 	public static void saveUsers(){

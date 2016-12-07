@@ -19,23 +19,19 @@ import ecommerce.panel.dialog.CreateUserDialog;
 import ecommerce.user.User;
 import ecommerce.user.UserManager;
 
-public class LoginPanel extends JPanel implements ActionListener {
+public class LoginPanel extends CustomPanel implements ActionListener {
+	
+	public static final String TAG = "login";
 	
 	private JTextField usernameField;
 	private JPasswordField passwordField;
 	private JLabel errorLabel;
 	private JButton loginButton;
-	private PanelManager pm;
 
-	public LoginPanel(PanelManager pm) {	
-		this.pm = pm;
-		//Check if at least one user exists
-		checkUsers();
+	public LoginPanel(PanelManager panelManager) {	
+		super(panelManager);
+
 		//Create GUI components
-		createGUI();
-	}
-
-	private void createGUI(){
 		JLabel welcomeLable = new JLabel("Benvenuto");
 		welcomeLable.setFont(new Font(welcomeLable.getFont().getFontName(), Font.BOLD, 32));
 		JLabel usernameLabel = new JLabel("Username:");
@@ -106,14 +102,30 @@ public class LoginPanel extends JPanel implements ActionListener {
 					)
 		);
 	}
-	
+
+	@Override
+	public void onEnter() {
+		
+		//Check if at least one user exists
+		checkUsers();
+		
+		//Reset fields
+		usernameField.setEnabled(true);
+		passwordField.setEnabled(true);
+		passwordField.setText("");
+		errorLabel.setText("");
+	}
+
 	private void checkUsers(){
+		//If there aren't users create the admin user first
 		if(UserManager.getUserCount() == 0){
 			JOptionPane.showMessageDialog(this, "Benvenuto!\nAl momento non esistono utenti.\nInizia creando un utente amministratore");
 
+			//Show the create users dialog
 			CreateUserDialog cuDialog = new CreateUserDialog();
 			cuDialog.setVisible(true);
 			
+			//Add admin and save users file
 			UserManager.addAdmin(cuDialog.getUsername(), cuDialog.getPassword());
 			UserManager.saveUsers();
 		}
@@ -121,21 +133,42 @@ public class LoginPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//If login button is pressed
 		if(e.getSource().equals(loginButton)){
+			//Disable username and password field
 			usernameField.setEnabled(false);
 			passwordField.setEnabled(false);
-			User loginUser = UserManager.getUser(usernameField.getText(), new String(passwordField.getPassword()));
-			if(loginUser != null){
-				if(loginUser.isAdmin()){
-					pm.setCurrentPanel("admin");
+			
+			//Check if password is not empty
+			if(passwordField.getPassword().length != 0){
+				//Get the user
+				User loginUser = UserManager.getUser(usernameField.getText(), new String(passwordField.getPassword()));
+				
+				//If user exists
+				if(loginUser != null){
+					//If user is admin open admin panel
+					if(loginUser.isAdmin()){
+						panelManager.setCurrentPanel(AdminPanel.TAG);
+					}
+					//Else open user panel
+					else{
+						
+					}
+				}
+				else{
+					//Login error
+					errorLabel.setText("Username o password invalidi");
 				}
 			}
 			else{
-				usernameField.setEnabled(true);
-				passwordField.setEnabled(true);
-				errorLabel.setText("Username o password invalid");
+				//Login error
+				errorLabel.setText("Username o password invalidi");
+
 			}
+			//Enable username and password field
+			usernameField.setEnabled(true);
+			passwordField.setEnabled(true);
+			
 		}
-		
 	}
 }
