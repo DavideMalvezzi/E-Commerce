@@ -2,6 +2,7 @@ package ecommerce;
 
 
 import ecommerce.panel.LoginPanel;
+import ecommerce.panel.dialog.CreateProductDialog;
 import ecommerce.user.UserManager;
 
 public class Main {
@@ -17,6 +18,8 @@ public class Main {
 		PanelManager pm = new PanelManager();
 		pm.setCurrentPanel(LoginPanel.TAG);
 		
+		CreateProductDialog cpDialog = new CreateProductDialog();
+		cpDialog.setVisible(true);
 		
 	}
 	

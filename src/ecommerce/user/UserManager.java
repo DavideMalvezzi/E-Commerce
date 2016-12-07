@@ -45,7 +45,7 @@ public class UserManager {
 		return false;
 	}
 	
-	public static void saveUsers(){
+	public static boolean saveUsers(){
 		//Get the users configuration file path
 		String homeFolder = System.getProperty("user.home");
 		File usersFile = new File(homeFolder + File.separator + usersFileName);
@@ -59,9 +59,12 @@ public class UserManager {
 			oos.close();
 			
 			System.out.println("Users file saved");
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		return false;
 	}
 	
 	public static void addUser(String name, String password){

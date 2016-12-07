@@ -22,13 +22,13 @@ public class CustomPanel extends JPanel{
 	
 	@Override
 	public void setVisible(boolean aFlag) {
+		super.setVisible(aFlag);
 		if(aFlag){
 			onEnter();
 		}
 		else{
 			onExit();
 		}
-		super.setVisible(aFlag);
 	}
 	
 }

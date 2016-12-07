@@ -45,7 +45,7 @@ public class ProductManager {
 		return false;
 	}
 	
-	public static void saveProducts(){
+	public static boolean saveProducts(){
 		//Get the products configuration file path
 		String homeFolder = System.getProperty("user.home");
 		File usersFile = new File(homeFolder + File.separator + Configuration.getInstance().productFilePath);
@@ -59,9 +59,11 @@ public class ProductManager {
 			oos.close();
 			
 			System.out.println("Products file saved");
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	

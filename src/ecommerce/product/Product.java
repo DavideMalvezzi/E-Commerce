@@ -60,6 +60,9 @@ public class Product implements Serializable{
 		this.img = img;
 	}
 	
+	public void setDiscount(float discount){
+	
+	}
 
 	public float getDiscount(){
 		return 0;

@@ -30,6 +30,9 @@ public class LoginPanel extends CustomPanel implements ActionListener {
 
 	public LoginPanel(PanelManager panelManager) {	
 		super(panelManager);
+		
+		//Check if at least one user exists
+		checkUsers();
 
 		//Create GUI components
 		JLabel welcomeLable = new JLabel("Benvenuto");
@@ -105,7 +108,6 @@ public class LoginPanel extends CustomPanel implements ActionListener {
 
 	@Override
 	public void onEnter() {
-		
 		//Check if at least one user exists
 		checkUsers();
 		
@@ -127,7 +129,9 @@ public class LoginPanel extends CustomPanel implements ActionListener {
 			
 			//Add admin and save users file
 			UserManager.addAdmin(cuDialog.getUsername(), cuDialog.getPassword());
-			UserManager.saveUsers();
+			if(!UserManager.saveUsers()){
+				JOptionPane.showMessageDialog(this, "Errore durante il salvataggio del file degli utenti.", "Errore", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 

@@ -13,6 +13,7 @@ import javax.swing.JToolBar;
 
 import ecommerce.Configuration;
 import ecommerce.PanelManager;
+import ecommerce.panel.dialog.CreateProductDialog;
 import ecommerce.product.ProductManager;
 
 public class AdminPanel extends CustomPanel implements ActionListener{
@@ -53,15 +54,14 @@ public class AdminPanel extends CustomPanel implements ActionListener{
 		toolBar.add(removeButton);
 		
 		add(toolBar, BorderLayout.PAGE_START);
-		
 	}
 	
 	@Override
 	public void onEnter() {
 		//Load the products
-		ProductManager.loadProducts();
-
-		
+		if(!ProductManager.loadProducts()){
+			JOptionPane.showMessageDialog(this, "Errore durante il caricamento dei prodotti.", "Errore", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	private JButton createToolBarButton(String image, String toolTip){
@@ -72,7 +72,6 @@ public class AdminPanel extends CustomPanel implements ActionListener{
 		
 		return button;
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -96,7 +95,14 @@ public class AdminPanel extends CustomPanel implements ActionListener{
 		}
 		
 		else if(e.getSource().equals(saveButton)){
-			ProductManager.saveProducts();
+			if(!ProductManager.saveProducts()){
+				JOptionPane.showMessageDialog(this, "Errore durante il salvattagio del file dei prodotti.", "Errore", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+		
+		else if(e.getSource().equals(addButton)){
+			CreateProductDialog cpDialog = new CreateProductDialog();
+			cpDialog.setVisible(true);
 		}
 		
 	}
