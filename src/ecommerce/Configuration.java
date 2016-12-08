@@ -14,7 +14,7 @@ public class Configuration implements Serializable{
 	
 	private static Configuration instance = null;
 	
-	public String productFilePath;
+	public String productFilePath = System.getProperty("user.home") + File.separator + ".e-products";
 	
 	private Configuration() {
 		

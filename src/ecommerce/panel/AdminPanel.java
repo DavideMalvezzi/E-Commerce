@@ -1,6 +1,7 @@
 package ecommerce.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,11 +10,17 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JToolBar;
 
 import ecommerce.Configuration;
 import ecommerce.PanelManager;
 import ecommerce.panel.dialog.CreateProductDialog;
+import ecommerce.panel.widget.ProductView;
+import ecommerce.panel.widget.AdminProductView;
+import ecommerce.panel.widget.AdminViewModel;
+import ecommerce.panel.widget.ClientViewModel;
+import ecommerce.product.Product;
 import ecommerce.product.ProductManager;
 
 public class AdminPanel extends CustomPanel implements ActionListener{
@@ -26,6 +33,8 @@ public class AdminPanel extends CustomPanel implements ActionListener{
 	private JButton addButton;
 	private JButton editButton;
 	private JButton removeButton;
+	
+	private ProductView productView;
 
 
 	public AdminPanel(PanelManager panelManager) {
@@ -53,15 +62,19 @@ public class AdminPanel extends CustomPanel implements ActionListener{
 		toolBar.add(editButton);
 		toolBar.add(removeButton);
 		
-		add(toolBar, BorderLayout.PAGE_START);
+		productView = new AdminProductView();
+		
+		add(toolBar, BorderLayout.PAGE_START);		
+		add(productView, BorderLayout.CENTER);
+	
 	}
 	
 	@Override
 	public void onEnter() {
 		//Load the products
-		if(!ProductManager.loadProducts()){
-			JOptionPane.showMessageDialog(this, "Errore durante il caricamento dei prodotti.", "Errore", JOptionPane.ERROR_MESSAGE);
-		}
+		ProductManager.loadProducts();
+		productView.refresh();
+
 	}
 	
 	private JButton createToolBarButton(String image, String toolTip){
@@ -85,11 +98,11 @@ public class AdminPanel extends CustomPanel implements ActionListener{
 			if(returnVal == JFileChooser.APPROVE_OPTION){
 				Configuration.getInstance().productFilePath = fileChooser.getSelectedFile().getAbsolutePath();
 				if(!ProductManager.loadProducts()){
-					JOptionPane.showMessageDialog(this, "Il file scelto non Ã¨ stato caricato correttamente.", "Errore", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Il file scelto non è stato caricato correttamente.", "Errore", JOptionPane.ERROR_MESSAGE);
 				}
 				else{
 					Configuration.save();
-					//TODO: reload products on table
+					productView.refresh();
 				}
 			}
 		}
@@ -103,6 +116,33 @@ public class AdminPanel extends CustomPanel implements ActionListener{
 		else if(e.getSource().equals(addButton)){
 			CreateProductDialog cpDialog = new CreateProductDialog();
 			cpDialog.setVisible(true);
+			if(cpDialog.getProduct() != null){
+				ProductManager.addProduct(cpDialog.getProduct());
+				productView.refresh();
+			}
+		}
+		
+		else if(e.getSource().equals(editButton)){
+			int index = productView.getSelectedRow();
+			if(index != -1){
+				Product p = ProductManager.getProduct(index);
+				CreateProductDialog cpDialog = new CreateProductDialog(p);
+				cpDialog.setVisible(true);
+				if(cpDialog.getProduct() != null){
+					ProductManager.replaceProduct(p, cpDialog.getProduct());
+					productView.refresh();
+				}
+			}
+		}
+		else if(e.getSource().equals(removeButton)){
+			int index = productView.getSelectedRow();
+			if(index != -1){
+				int res = JOptionPane.showConfirmDialog(this, "Vuoi cancellare questo prodotto?", "Cancellare?", JOptionPane.YES_NO_OPTION);
+				if(res == JOptionPane.YES_OPTION){
+					ProductManager.removeProduct(index);
+					productView.refresh();
+				}
+			}
 		}
 		
 	}

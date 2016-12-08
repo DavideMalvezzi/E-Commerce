@@ -21,8 +21,7 @@ public class ProductManager {
 	
 	public static boolean loadProducts(){
 		//Get the products configuration file path
-		String homeFolder = System.getProperty("user.home");
-		File usersFile = new File(homeFolder + File.separator + Configuration.getInstance().productFilePath);
+		File usersFile = new File(Configuration.getInstance().productFilePath);
 		
 		//Check if the file exists
 		if(usersFile.exists()){
@@ -47,8 +46,7 @@ public class ProductManager {
 	
 	public static boolean saveProducts(){
 		//Get the products configuration file path
-		String homeFolder = System.getProperty("user.home");
-		File usersFile = new File(homeFolder + File.separator + Configuration.getInstance().productFilePath);
+		File usersFile = new File(Configuration.getInstance().productFilePath);
 		
 		try {
 			//Save the serialized products vector
@@ -71,16 +69,27 @@ public class ProductManager {
 		products.add(p);
 	}
 	
+	public static void replaceProduct(Product oldP, Product newP){
+		products.set(products.indexOf(oldP), newP);
+	}
+	
 	public static void removeProduct(Product p){
 		products.remove(p);
 	}
 	
+	public static void removeProduct(int index){
+		products.remove(index);
+	}
+	
 	public static int getProductCount(){
-		return products.size();
+		return products == null ? 0 : products.size();
 	}
 	
 	public static Product getProduct(int index){
-		return products.get(index);
+		if(index < products.size()){
+			return products.get(index);
+		}
+		return null;
 	}
 	
 }

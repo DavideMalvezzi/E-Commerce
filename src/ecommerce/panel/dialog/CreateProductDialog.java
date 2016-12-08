@@ -1,21 +1,25 @@
 package ecommerce.panel.dialog;
 
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.DecimalFormat;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -23,10 +27,12 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.BevelBorder;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.sun.xml.internal.org.jvnet.mimepull.DecodingException;
-
+import ecommerce.product.DiscountedProduct;
 import ecommerce.product.Product;
+import ecommerce.product.Product3x2;
 import ecommerce.utils.JTextFieldFilter;
 
 public class CreateProductDialog extends JDialog implements ActionListener, MouseListener, ItemListener{
@@ -40,6 +46,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 	private JTextField priceField;
 	private JSpinner discountSpinner;
 	private JLabel imageLabel;
+	private String imagePath;
 	
 	private JRadioButton normalRadio;
 	private JRadioButton discountedRadio;
@@ -54,15 +61,15 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 		setTitle("Inserisci nuovo prodotto");
 	}
 	
-	public CreateProductDialog(Product product) {
-		this.product = product;
-		
-		setSize(512, 280);
-		setLocationRelativeTo(null);
+	public CreateProductDialog(Product product) {		
+		//Set dialog options
 		setModal(true);
 		setResizable(false);
+		setSize(450, 260);
 		setTitle("Modifica un prodotto");
-		
+		setLocationRelativeTo(null);
+
+		//Create GUI components
 		JLabel codeLabel = new JLabel("Codice:");
 		JLabel nameLabel = new JLabel("Nome:");
 		JLabel brandLabel = new JLabel("Marca:");
@@ -75,22 +82,14 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 		brandField = new JTextField();
 		categoryField = new JTextField();
 		priceField = new JTextField();
-		priceField.setText("0.0");
 		priceField.setDocument(new JTextFieldFilter(JTextFieldFilter.FLOAT));
+		priceField.setText("0.0");
 		discountSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 100, 1));
 		discountSpinner.setEnabled(false);
-		
-		/*
-		BufferedImage myPicture = null;
-		try {
-			myPicture = ImageIO.read(new File("path-to-file"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		*/
-		imageLabel = new JLabel();
+
+		imageLabel = new JLabel("Click per selezionare un'immagine");
 		imageLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-		imageLabel.setMinimumSize(new Dimension(170, 170));
+		imageLabel.setMinimumSize(new Dimension(200, 150));
 		imageLabel.addMouseListener(this);
 		
 	    ButtonGroup group = new ButtonGroup();
@@ -108,7 +107,6 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 		group.add(discountedRadio);
 		group.add(threextwoRadio);
 
-		
 		saveButton = new JButton("Salva");
 		saveButton.addActionListener(this);
 		cancelButton = new JButton("Annulla");
@@ -122,6 +120,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 		gLayout.setAutoCreateGaps(true);
 		gLayout.setAutoCreateContainerGaps(true);
 		
+		//Create the layout
 		gLayout.setVerticalGroup(
 				gLayout.createSequentialGroup()
 					.addGroup(
@@ -197,7 +196,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 											.addComponent(priceField)
 											.addComponent(discountSpinner)
 								)
-								.addComponent(imageLabel, 200, 200, 200)
+								.addComponent(imageLabel)
 					)
 					.addGroup(
 							gLayout.createSequentialGroup()
@@ -212,7 +211,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 					)
 		);
 		
-		
+		//Add all to the panel
 		container.add(codeLabel);
 		container.add(codeField);
 		
@@ -242,6 +241,33 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 		
 		add(container);
 		
+		//Load product attributes if is not null
+		if(product != null){
+			codeField.setText(product.getCode());
+			nameField.setText(product.getName());
+			brandField.setText(product.getBrand());
+			categoryField.setText(product.getCategory());
+			priceField.setText(Float.toString(product.getPrice()));
+			discountSpinner.setValue(product.getDiscount());
+			
+			if(product.getImg() != null){
+				imageLabel.setIcon(new ImageIcon(loadImage(product.getImg(), imageLabel.getMinimumSize())));
+				imageLabel.setText("");
+			}
+			
+			if(product instanceof Product3x2){
+				threextwoRadio.setSelected(true);
+			}
+			else if(product instanceof DiscountedProduct){
+				discountedRadio.setSelected(true);
+			}
+			else{
+				normalRadio.setSelected(true);
+			}
+			
+		}
+		product = null;
+		
 	}
 	
 	public Product getProduct(){
@@ -255,7 +281,23 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 			dispose();
 		}
 		else if(e.getSource().equals(saveButton)){
+			if(normalRadio.isSelected()){
+				product = new Product();
+			}
+			else if(discountedRadio.isSelected()){
+				product = new DiscountedProduct();
+			}
+			else{
+				product = new Product3x2();
+			}
 			
+			product.setCode(codeField.getText());
+			product.setName(nameField.getText());
+			product.setCategory(categoryField.getText());
+			product.setBrand(brandField.getText());
+			product.setPrice(Float.parseFloat(priceField.getText()));
+			product.setDiscount((Integer)discountSpinner.getValue());
+			product.setImg(imagePath);
 			dispose();
 		}
 		
@@ -270,9 +312,36 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		JFileChooser fChooser = new JFileChooser();
+		FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
+		fChooser.setFileFilter(imageFilter);
 		
+		if(fChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+			imagePath = fChooser.getSelectedFile().getAbsolutePath();
+			try {
+				imageLabel.setIcon(new ImageIcon(loadImage(imagePath, imageLabel.getSize())));
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+			imageLabel.setText("");
+		}
 	}
 
+	private Image loadImage(String path, Dimension size){
+		BufferedImage img = null ;
+		File f = new File(path);
+		
+		if(f.exists()){
+			try {
+				img = ImageIO.read(new File(path));
+				return img.getScaledInstance((int)size.getWidth(), (int)size.getHeight(), Image.SCALE_SMOOTH);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub

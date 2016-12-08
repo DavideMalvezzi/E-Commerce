@@ -2,15 +2,15 @@ package ecommerce.product;
 
 public class DiscountedProduct extends Product{
 	
-	private float discount;
+	private int discount;
 	
-	public void setDiscount(float discount){
+	public void setDiscount(int discount){
 		this.discount = discount;
 	
 	}
 	
 	@Override
-	public float getDiscount() {
+	public int getDiscount() {
 		return discount;
 	}
 
