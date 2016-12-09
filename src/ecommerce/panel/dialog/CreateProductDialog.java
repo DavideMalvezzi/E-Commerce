@@ -33,6 +33,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import ecommerce.product.DiscountedProduct;
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
+import ecommerce.utils.ImageLoader;
 import ecommerce.utils.JTextFieldFilter;
 
 public class CreateProductDialog extends JDialog implements ActionListener, MouseListener, ItemListener{
@@ -251,7 +252,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 			discountSpinner.setValue(product.getDiscount());
 			
 			if(product.getImg() != null){
-				imageLabel.setIcon(new ImageIcon(loadImage(product.getImg(), imageLabel.getMinimumSize())));
+				imageLabel.setIcon(new ImageIcon(ImageLoader.loadImage(product.getImg(), imageLabel.getMinimumSize())));
 				imageLabel.setText("");
 			}
 			
@@ -291,6 +292,8 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 				product = new Product3x2();
 			}
 			
+			//TODO: check if fields are empty
+			
 			product.setCode(codeField.getText());
 			product.setName(nameField.getText());
 			product.setCategory(categoryField.getText());
@@ -319,27 +322,12 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 		if(fChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
 			imagePath = fChooser.getSelectedFile().getAbsolutePath();
 			try {
-				imageLabel.setIcon(new ImageIcon(loadImage(imagePath, imageLabel.getSize())));
+				imageLabel.setIcon(new ImageIcon(ImageLoader.loadImage(imagePath, imageLabel.getSize())));
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 			imageLabel.setText("");
 		}
-	}
-
-	private Image loadImage(String path, Dimension size){
-		BufferedImage img = null ;
-		File f = new File(path);
-		
-		if(f.exists()){
-			try {
-				img = ImageIO.read(new File(path));
-				return img.getScaledInstance((int)size.getWidth(), (int)size.getHeight(), Image.SCALE_SMOOTH);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
 	}
 	
 	@Override

@@ -30,7 +30,7 @@ public class Configuration implements Serializable{
 		
 		//Check if the file exists
 		if(configFile.exists()){
-			System.out.println("Config file found");
+			System.out.println("Config file found at " + configFile.getAbsolutePath());
 			try {
 				//Load the serialized users hash map
 				FileInputStream fis = new FileInputStream(configFile);
@@ -44,6 +44,7 @@ public class Configuration implements Serializable{
 		else{
 			System.out.println("Config file not found");
 			instance = new Configuration();
+			save();
 		}
 	}
 	

@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Vector;
 
 import ecommerce.Configuration;
@@ -21,14 +23,14 @@ public class ProductManager {
 	
 	public static boolean loadProducts(){
 		//Get the products configuration file path
-		File usersFile = new File(Configuration.getInstance().productFilePath);
+		File productFile = new File(Configuration.getInstance().productFilePath);
 		
 		//Check if the file exists
-		if(usersFile.exists()){
-			System.out.println("Products file found");
+		if(productFile.exists()){
+			System.out.println("Products file found at " + productFile.getAbsolutePath());
 			try {
 				//Load the serialized users hash map
-				FileInputStream fis = new FileInputStream(usersFile);
+				FileInputStream fis = new FileInputStream(productFile);
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				products = (Vector<Product>)ois.readObject();
 				ois.close();
@@ -90,6 +92,22 @@ public class ProductManager {
 			return products.get(index);
 		}
 		return null;
+	}
+	
+	public static Vector<String> getProductCategoryList(){
+		Vector<String> categories = new Vector<String>();
+		
+		for(int i = 0; i < products.size(); i++){
+			if(!categories.contains(products.get(i).getCategory())){
+				categories.add(products.get(i).getCategory());
+			}
+		}
+		
+		Collections.sort(categories);
+		
+		categories.add(0, "Tutte");
+		
+		return categories;
 	}
 	
 }

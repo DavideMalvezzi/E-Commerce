@@ -14,16 +14,15 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 
 import ecommerce.Configuration;
-import ecommerce.PanelManager;
 import ecommerce.panel.dialog.CreateProductDialog;
 import ecommerce.panel.widget.ProductView;
-import ecommerce.panel.widget.AdminProductView;
-import ecommerce.panel.widget.AdminViewModel;
-import ecommerce.panel.widget.ClientViewModel;
+import ecommerce.panel.widget.admin.AdminProductView;
+import ecommerce.panel.widget.admin.AdminViewModel;
+import ecommerce.panel.widget.client.ClientViewModel;
 import ecommerce.product.Product;
 import ecommerce.product.ProductManager;
 
-public class AdminPanel extends CustomPanel implements ActionListener{
+public class AdminPanel extends CustomPanel {
 
 	public static final String TAG = "admin";
 	
@@ -34,7 +33,7 @@ public class AdminPanel extends CustomPanel implements ActionListener{
 	private JButton editButton;
 	private JButton removeButton;
 	
-	private ProductView productView;
+	private AdminProductView productView;
 
 
 	public AdminPanel(PanelManager panelManager) {
@@ -75,15 +74,6 @@ public class AdminPanel extends CustomPanel implements ActionListener{
 		ProductManager.loadProducts();
 		productView.refresh();
 
-	}
-	
-	private JButton createToolBarButton(String image, String toolTip){
-		JButton button = new JButton();
-		button.setIcon(new ImageIcon(AdminPanel.class.getResource(image)));
-		button.setToolTipText(toolTip);
-		button.addActionListener(this);
-		
-		return button;
 	}
 
 	@Override

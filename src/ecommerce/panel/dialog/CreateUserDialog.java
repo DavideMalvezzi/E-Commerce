@@ -102,7 +102,7 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 		if(e.getSource().equals(saveButton)){
 			//Print error if the username field is empty
 			if(getUsername().length() == 0){
-				errorLabel.setText("L'username non pu√≤ essere vuoto");
+				errorLabel.setText("L'username non puÚ essere vuoto");
 				return;
 			}
 			//Print error if the password field is empty
@@ -112,7 +112,7 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 			}
 			
 			if(UserManager.userExists(getUsername(), getPassword())){
-				errorLabel.setText("L'utente esiste gi√†");
+				errorLabel.setText("L'utente Ë gi‡ esistente");
 				return;
 			}
 			

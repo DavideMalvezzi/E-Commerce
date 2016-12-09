@@ -14,12 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import ecommerce.PanelManager;
 import ecommerce.panel.dialog.CreateUserDialog;
 import ecommerce.user.User;
 import ecommerce.user.UserManager;
 
-public class LoginPanel extends CustomPanel implements ActionListener {
+public class LoginPanel extends CustomPanel {
 	
 	public static final String TAG = "login";
 	
@@ -27,6 +26,7 @@ public class LoginPanel extends CustomPanel implements ActionListener {
 	private JPasswordField passwordField;
 	private JLabel errorLabel;
 	private JButton loginButton;
+	private JButton createButton;
 
 	public LoginPanel(PanelManager panelManager) {	
 		super(panelManager);
@@ -46,6 +46,8 @@ public class LoginPanel extends CustomPanel implements ActionListener {
 		errorLabel.setForeground(Color.RED);
 		loginButton = new JButton("Login");
 		loginButton.addActionListener(this);
+		createButton = new JButton("Crea utente");
+		createButton.addActionListener(this);
 		
 		//Create internal panel and layout
 		JPanel jp = new JPanel();
@@ -68,21 +70,28 @@ public class LoginPanel extends CustomPanel implements ActionListener {
 		//Add auto gaps to layout
 		layout.setAutoCreateGaps(true);
 	    layout.setAutoCreateContainerGaps(true);
+	    layout.linkSize(createButton, loginButton);
 	    
 	    //Set internal layout
 		layout.setVerticalGroup(
 				layout.createSequentialGroup()
 					.addComponent(welcomeLable)
-					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-						.addComponent(usernameLabel)
-						.addComponent(usernameField, 0, 20, 20)
+					.addGroup(
+							layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+								.addComponent(usernameLabel)
+								.addComponent(usernameField, 0, 20, 20)
 					)
-					.addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-						.addComponent(passwordLabel)
-						.addComponent(passwordField, 0, 20, 20)
+					.addGroup(
+							layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+								.addComponent(passwordLabel)
+								.addComponent(passwordField, 0, 20, 20)
 					)
 					.addComponent(errorLabel)
-					.addComponent(loginButton)
+					.addGroup(
+							layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+							.addComponent(loginButton)
+							.addComponent(createButton)
+					)
 		);
 
 		layout.setHorizontalGroup(
@@ -101,7 +110,11 @@ public class LoginPanel extends CustomPanel implements ActionListener {
 									)
 								)
 								.addComponent(errorLabel)
-								.addComponent(loginButton)
+								.addGroup(layout.createSequentialGroup()
+										.addComponent(createButton)
+										.addComponent(loginButton)
+								)
+								
 					)
 		);
 	}
@@ -156,7 +169,7 @@ public class LoginPanel extends CustomPanel implements ActionListener {
 					}
 					//Else open user panel
 					else{
-						
+						panelManager.setCurrentPanel(ClientPanel.TAG);
 					}
 				}
 				else{
@@ -172,6 +185,17 @@ public class LoginPanel extends CustomPanel implements ActionListener {
 			//Enable username and password field
 			usernameField.setEnabled(true);
 			passwordField.setEnabled(true);
+			
+		}
+		
+		else if(e.getSource().equals(createButton)){
+			CreateUserDialog cuDialog = new CreateUserDialog();
+			cuDialog.setVisible(true);
+
+			UserManager.addUser(cuDialog.getUsername(), cuDialog.getPassword());
+			if(!UserManager.saveUsers()){
+				JOptionPane.showMessageDialog(this, "Errore durante il salvataggio del file degli utenti.", "Errore", JOptionPane.ERROR_MESSAGE);
+			}
 			
 		}
 	}

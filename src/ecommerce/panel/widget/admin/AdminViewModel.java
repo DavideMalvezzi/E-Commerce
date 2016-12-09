@@ -1,5 +1,9 @@
-package ecommerce.panel.widget;
+package ecommerce.panel.widget.admin;
 
+import java.awt.Dimension;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
@@ -9,16 +13,17 @@ import javax.swing.table.DefaultTableCellRenderer;
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 import ecommerce.product.ProductManager;
+import ecommerce.utils.ImageLoader;
 
 public class AdminViewModel extends AbstractTableModel {
 
-	public static final int CODE_COL = 0;
-	public static final int NAME_COL = 1;
-	public static final int BRAND_COL = 2;
-	public static final int CATEGORY_COL = 3;
-	public static final int PRICE_COL = 4;
-	public static final int OFFER_COL = 5;
-	public static final int IMG_COL = 6;
+	public static final int IMG_COL = 0;
+	public static final int CODE_COL = 1;
+	public static final int NAME_COL = 2;
+	public static final int BRAND_COL = 3;
+	public static final int CATEGORY_COL = 4;
+	public static final int PRICE_COL = 5;
+	public static final int OFFER_COL = 6;
 	
 	@Override
 	public int getRowCount() {
@@ -32,6 +37,7 @@ public class AdminViewModel extends AbstractTableModel {
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
+		if(columnIndex == 0) return ImageIcon.class;
 		return String.class;
 	}
 
@@ -41,6 +47,14 @@ public class AdminViewModel extends AbstractTableModel {
 		
 		if(product != null){
 			switch (columnIndex) {
+				case IMG_COL:
+					Image img = ImageLoader.loadImage(product.getImg(), new Dimension(100, 100));
+					if(img != null){
+						return new ImageIcon(img);
+					}
+					
+					return null;
+					
 				case CODE_COL:
 					return product.getCode();
 					
@@ -73,6 +87,9 @@ public class AdminViewModel extends AbstractTableModel {
 	@Override
 	public String getColumnName(int column) {
 		switch (column) {
+			case IMG_COL:
+				return "Immagine";
+		
 			case CODE_COL:
 				return "Codice";
 				

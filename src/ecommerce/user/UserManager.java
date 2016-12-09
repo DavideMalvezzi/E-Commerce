@@ -13,9 +13,11 @@ public class UserManager {
 	private static final String usersFileName = ".e-users";
 	
 	//Users map index by password hash
-	private static HashMap<Integer, User> users = null; 
+	private static HashMap<String, User> users = null; 
 	
-	private UserManager(){}
+	private UserManager(){
+		
+	}
 	
 	public static boolean loadUsers(){
 		//Get the users configuration file path
@@ -25,12 +27,12 @@ public class UserManager {
 		
 		//Check if the file exists
 		if(usersFile.exists()){
-			System.out.println("Users file found");
+			System.out.println("Users file found at " + usersFile.getAbsolutePath());
 			try {				
 				//Load the serialized users hash map
 				FileInputStream fis = new FileInputStream(usersFile);
 				ObjectInputStream ois = new ObjectInputStream(fis);
-				users = (HashMap<Integer, User>)ois.readObject();
+				users = (HashMap<String, User>)ois.readObject();
 				ois.close();
 				return true;
 			} catch (Exception e) {
@@ -40,7 +42,7 @@ public class UserManager {
 		else{
 			System.out.println("Users file not found");
 
-			users = new HashMap<Integer, User>();			
+			users = new HashMap<String, User>();			
 		}
 		return false;
 	}
@@ -69,12 +71,12 @@ public class UserManager {
 	
 	public static void addUser(String name, String password){
 		User newUser = new User(name, password);
-		users.put(newUser.getPasswordHash(), newUser);
+		users.put(newUser.getName() + newUser.getPasswordHash(), newUser);
 	}
 	
 	public static void addAdmin(String name, String password){
 		User newUser = new User(name, password, true);
-		users.put(newUser.getPasswordHash(), newUser);
+		users.put(newUser.getName() + newUser.getPasswordHash(), newUser);
 	}
 	
 	public static int getUserCount(){
@@ -85,20 +87,19 @@ public class UserManager {
 		User user = null;
 		
 		if(users != null){
-			user = users.get(password.hashCode());
+			user = users.get(name + password.hashCode());
 		}
 		
-		return user != null && user.getName().equals(name);
+		return user != null;
 	}
 	
 	public static User getUser(String name, String password){
 		User user = null;
 		
 		if(users != null){
-			user = users.get(password.hashCode());
-			if(user.getName().equals(name)){
-				return user;
-			}
+			user = users.get(name + password.hashCode());
+			
+			return user;
 		}
 		
 		return null;

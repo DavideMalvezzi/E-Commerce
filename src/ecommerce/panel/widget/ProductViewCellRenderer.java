@@ -21,6 +21,7 @@ public class ProductViewCellRenderer extends DefaultTableCellRenderer {
 		}
 		
 		JLabel c = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		c.setFont(new Font(c.getFont().getFontName(), Font.PLAIN, 24));
 
 		return c;
 	}

@@ -1,4 +1,4 @@
-package ecommerce.panel.widget;
+package ecommerce.panel.widget.client;
 
 import javax.swing.JLabel;
 import javax.swing.table.AbstractTableModel;

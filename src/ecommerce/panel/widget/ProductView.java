@@ -28,7 +28,7 @@ public abstract class ProductView extends JScrollPane {
 		table.setColumnSelectionAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		table.setRowHeight(24);
+		table.setRowHeight(100);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		
 		setViewportView(table);
