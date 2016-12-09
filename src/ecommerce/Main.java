@@ -2,11 +2,11 @@ package ecommerce;
 
 
 
+import ecommerce.dialog.CreateProductDialog;
 import ecommerce.panel.AdminPanel;
 import ecommerce.panel.ClientPanel;
 import ecommerce.panel.LoginPanel;
 import ecommerce.panel.PanelManager;
-import ecommerce.panel.dialog.CreateProductDialog;
 import ecommerce.product.DiscountedProduct;
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
@@ -24,7 +24,7 @@ public class Main {
 		
 		//Create login panel
 		PanelManager pm = new PanelManager();
-		pm.setCurrentPanel(AdminPanel.TAG);
+		pm.setCurrentPanel(ClientPanel.TAG);
 		
 		/*
 		CreateProductDialog cpDialog = new CreateProductDialog();

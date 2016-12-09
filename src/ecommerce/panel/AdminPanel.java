@@ -1,26 +1,18 @@
 package ecommerce.panel;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JToolBar;
 
 import ecommerce.Configuration;
-import ecommerce.panel.dialog.CreateProductDialog;
-import ecommerce.panel.widget.ProductView;
-import ecommerce.panel.widget.admin.AdminProductView;
-import ecommerce.panel.widget.admin.AdminViewModel;
-import ecommerce.panel.widget.client.ClientViewModel;
+import ecommerce.dialog.CreateProductDialog;
 import ecommerce.product.Product;
 import ecommerce.product.ProductManager;
+import ecommerce.widget.view.AdminProductView;
 
 public class AdminPanel extends CustomPanel {
 

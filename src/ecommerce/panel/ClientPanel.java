@@ -2,17 +2,25 @@ package ecommerce.panel;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
-import ecommerce.panel.widget.client.ClientProductView;
 import ecommerce.product.ProductManager;
+import ecommerce.widget.ProductPanel;
 
 public class ClientPanel extends CustomPanel{
 
@@ -24,10 +32,9 @@ public class ClientPanel extends CustomPanel{
 	private JButton searchButton;
 	private JButton filterButton;
 	private JButton cartButton;
+	private JPanel productsPanel;
 	
-	
-	private ClientProductView productView;
-	
+		
 	public ClientPanel(PanelManager panelManager) {
 		super(panelManager);
 		
@@ -56,20 +63,32 @@ public class ClientPanel extends CustomPanel{
 		toolBar.add(Box.createHorizontalGlue()); // After this every component will be added to the right
 		toolBar.add(cartButton);
 		
-		
-		productView = new ClientProductView();
-		
+		productsPanel = new JPanel();
+		productsPanel.setLayout(new GridBagLayout());		
+
 		add(toolBar, BorderLayout.PAGE_START);		
-		add(productView, BorderLayout.CENTER);
+		add(new JScrollPane(productsPanel), BorderLayout.CENTER);
 	}
 
 	@Override
 	public void onEnter() {
 		//Load the products
 		ProductManager.loadProducts();
-		categoryCombo.setModel(new DefaultComboBoxModel<String>(ProductManager.getProductCategoryList()));
-		productView.refresh();
+		
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.weightx = 1f;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.insets = new Insets(4, 8, 4, 8);
 
+		productsPanel.removeAll();
+		for(int i = 0; i < ProductManager.getProductCount(); i++){
+			c.gridy = i;
+			productsPanel.add(new ProductPanel(ProductManager.getProduct(i)), c);
+		}
+		
+		categoryCombo.setModel(new DefaultComboBoxModel<String>(ProductManager.getProductCategoryList()));
 	}
 	
 	@Override

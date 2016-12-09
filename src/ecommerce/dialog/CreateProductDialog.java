@@ -1,4 +1,4 @@
-package ecommerce.panel.dialog;
+package ecommerce.dialog;
 
 import java.awt.Dimension;
 import java.awt.Image;
@@ -26,6 +26,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -91,6 +92,8 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 		imageLabel = new JLabel("Click per selezionare un'immagine");
 		imageLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		imageLabel.setMinimumSize(new Dimension(200, 150));
+		imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		imageLabel.setVerticalAlignment(SwingConstants.CENTER);
 		imageLabel.addMouseListener(this);
 		
 	    ButtonGroup group = new ButtonGroup();

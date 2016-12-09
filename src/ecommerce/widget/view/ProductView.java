@@ -1,4 +1,4 @@
-package ecommerce.panel.widget;
+package ecommerce.widget.view;
 
 import java.awt.Component;
 import java.util.Enumeration;
@@ -23,7 +23,6 @@ public abstract class ProductView extends JScrollPane {
 		
 		model = m;
 		table = new JTable(model);
-		table.setDefaultRenderer(String.class, new ProductViewCellRenderer());
 		
 		table.setColumnSelectionAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -57,19 +56,16 @@ public abstract class ProductView extends JScrollPane {
         if (renderer == null) {
             renderer = table.getTableHeader().getDefaultRenderer();
         }
-        Component comp = renderer.getTableCellRendererComponent(
-                table, col.getHeaderValue(), false, false, 0, 0);
+        Component comp = renderer.getTableCellRendererComponent(table, col.getHeaderValue(), false, false, 0, 0);
         width = comp.getPreferredSize().width;
 
+        int currentWidth;
         for (int r = 0; r < table.getRowCount(); r++) {
             renderer = table.getCellRenderer(r, column);
-            comp = renderer.getTableCellRendererComponent(
-                    table, table.getValueAt(r, column), false, false, r, column);
-            int currentWidth = comp.getPreferredSize().width;
+            comp = renderer.getTableCellRendererComponent(table, table.getValueAt(r, column), false, false, r, column);
+            currentWidth = comp.getPreferredSize().width;
             width = Math.max(width, currentWidth);
         }
-
-        width += 2 * margin;
 
         col.setPreferredWidth(width);
     }

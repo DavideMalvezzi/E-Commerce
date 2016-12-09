@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import ecommerce.panel.dialog.CreateUserDialog;
+import ecommerce.dialog.CreateUserDialog;
 import ecommerce.user.User;
 import ecommerce.user.UserManager;
 

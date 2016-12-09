@@ -1,4 +1,4 @@
-package ecommerce.panel.dialog;
+package ecommerce.dialog;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

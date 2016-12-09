@@ -1,14 +1,10 @@
-package ecommerce.panel.widget.admin;
+package ecommerce.widget.model;
 
 import java.awt.Dimension;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
@@ -37,7 +33,9 @@ public class AdminViewModel extends AbstractTableModel {
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		if(columnIndex == 0) return ImageIcon.class;
+		if(columnIndex == IMG_COL){
+			return ImageIcon.class;
+		}
 		return String.class;
 	}
 
@@ -52,7 +50,6 @@ public class AdminViewModel extends AbstractTableModel {
 					if(img != null){
 						return new ImageIcon(img);
 					}
-					
 					return null;
 					
 				case CODE_COL:
