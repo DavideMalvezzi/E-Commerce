@@ -48,7 +48,8 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 	private JButton addCartButton;
 
     private DragSource source;
-    private TransferHandler transferHandler;
+    
+    public static final String TRANSFER_HANDLER_PROP = "ProductPanel";
 	
 	public ProductPanel(Product product) {
 		this.product = product;
@@ -189,14 +190,15 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addMouseListener(this);
 	
-		transferHandler = new TransferHandler(){
+		
+		//Create transfer handler for the DnD
+		setTransferHandler(new TransferHandler(TRANSFER_HANDLER_PROP){
 			protected Transferable createTransferable(JComponent c) {
 				return ProductPanel.this;
 			};
-		};
+		});
 		
-		setTransferHandler(transferHandler);
-		
+		//Create new DnD source
 		source = new DragSource();
 		source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
 		
@@ -275,6 +277,9 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 	public void dragExit(DragSourceEvent dse) {}
 
 	@Override
-	public void dragDropEnd(DragSourceDropEvent dsde) {}
+	public void dragDropEnd(DragSourceDropEvent dsde) {
+		setBackground(UIManager.getColor("Panel.background"));	
+		repaint();
+	}
 	
 }

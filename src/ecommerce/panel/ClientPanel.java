@@ -181,9 +181,6 @@ public class ClientPanel extends CustomPanel implements DropTargetListener{
 	public void dragEnter(DropTargetDragEvent dtde) {}
 
 	@Override
-	public void dragOver(DropTargetDragEvent dtde) {}
-
-	@Override
 	public void dropActionChanged(DropTargetDragEvent dtde) {}
 
 	@Override
@@ -191,24 +188,32 @@ public class ClientPanel extends CustomPanel implements DropTargetListener{
 
 	@Override
 	public void drop(DropTargetDropEvent dtde) {
-		int res = JOptionPane.showConfirmDialog(this, "Vuoi aggiungere questo oggetto al carrello?", "Aggiungere?", JOptionPane.YES_NO_OPTION);
-		if(res == JOptionPane.YES_OPTION){
-            Transferable t = dtde.getTransferable();
-            DataFlavor[] df = t.getTransferDataFlavors();
-            try {
-				Product p = (Product) t.getTransferData(df[0]);
-				int qt = (int) t.getTransferData(df[1]);
-				
-				BasketManager.addProduct(p, qt);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-            dtde.dropComplete(true);
-		}
-		else{
-			dtde.rejectDrop();
-		}
-		
+		Transferable t = dtde.getTransferable();
+        DataFlavor[] df = t.getTransferDataFlavors();
+        
+        if(df[0].getRepresentationClass().equals(Product.class) && df[1].getRepresentationClass().equals(Integer.class)){
+        	int res = JOptionPane.showConfirmDialog(this, "Vuoi aggiungere questo oggetto al carrello?", "Aggiungere?", JOptionPane.YES_NO_OPTION);
+    		if(res == JOptionPane.YES_OPTION){ 
+                try {
+    				Product p = (Product) t.getTransferData(df[0]);
+    				int qt = (int) t.getTransferData(df[1]);
+    				
+    				BasketManager.addProduct(p, qt);
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+                dtde.dropComplete(true);
+    		}
+    		else{
+    			dtde.rejectDrop();
+    		}
+        }
+        else{
+        	dtde.rejectDrop();
+        }
 	}
+
+	@Override
+	public void dragOver(DropTargetDragEvent dtde) {}
 
 }

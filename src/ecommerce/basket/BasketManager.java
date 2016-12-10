@@ -13,6 +13,7 @@ public class BasketManager {
 	}
 	
 	public static void addProduct(Product product, int qt){
+		System.out.println("BasketManager.addProduct() add " + product.getName() + "  qt  "  + qt);
 		basket.put(product, qt);
 	}
 	
