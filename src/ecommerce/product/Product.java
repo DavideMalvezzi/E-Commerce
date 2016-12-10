@@ -10,12 +10,7 @@ public class Product implements Serializable{
 	protected String category;
 	protected float price;
 	protected String img;
-	protected int qt;
 	
-	
-	public Product() {
-		qt = 1;
-	}
 	
 	public String getName() {
 		return name;
@@ -71,14 +66,6 @@ public class Product implements Serializable{
 
 	public int getDiscount(){
 		return 0;
-	}
-	
-	public int getQt(){
-		return qt;
-	}
-	
-	public void setQt(int qt){
-		this.qt = qt;
 	}
 
 	public float getFinalPrice(){

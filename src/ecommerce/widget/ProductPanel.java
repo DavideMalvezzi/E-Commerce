@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -16,12 +20,14 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
+import ecommerce.basket.BasketManager;
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 import ecommerce.utils.ImageLoader;
 
-public class ProductPanel extends JPanel{
+public class ProductPanel extends JPanel implements ActionListener, MouseListener{
 
 	private Product product;
 	private JSpinner qtSpinner;
@@ -94,7 +100,8 @@ public class ProductPanel extends JPanel{
 		
 		qtSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Short.MAX_VALUE, 1));
 		
-		addCartButton = new JButton(new ImageIcon(ProductPanel.class.getResource("/image/addcart.png")));
+		addCartButton = new JButton(new ImageIcon(ProductPanel.class.getResource("/image/addbasket.png")));
+		addCartButton.addActionListener(this);
 
 		
 		GroupLayout gLayout = new GroupLayout(this);
@@ -163,6 +170,48 @@ public class ProductPanel extends JPanel{
 		
 		
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		addMouseListener(this);
+	}
+	
+	public Product getProduct(){
+		return product;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals(addCartButton)){
+			BasketManager.addProduct(product, (int) qtSpinner.getValue());
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		setBackground(UIManager.getColor("List.selectionBackground"));
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		setBackground(UIManager.getColor("Panel.background"));
+		
 	}
 	
 }

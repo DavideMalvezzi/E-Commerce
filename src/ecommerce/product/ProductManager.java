@@ -104,9 +104,7 @@ public class ProductManager {
 		}
 		
 		Collections.sort(categories);
-		
-		categories.add(0, "Tutte");
-		
+				
 		return categories;
 	}
 	

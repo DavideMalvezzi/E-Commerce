@@ -1,6 +1,7 @@
 package ecommerce.panel;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -8,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -19,7 +21,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
+import ecommerce.basket.BasketManager;
+import ecommerce.product.Product;
 import ecommerce.product.ProductManager;
+import ecommerce.product.filter.ProductFilter;
+import ecommerce.product.filter.CategoryFilter;
+import ecommerce.product.filter.NameFilter;
 import ecommerce.widget.ProductPanel;
 
 public class ClientPanel extends CustomPanel{
@@ -52,7 +59,7 @@ public class ClientPanel extends CustomPanel{
 
 		searchButton = createToolBarButton("/image/search.png", "Cerca");
 		filterButton = createToolBarButton("/image/filter.png", "Applica filtro");
-		cartButton = createToolBarButton("/image/cart.png", "Carrello");
+		cartButton = createToolBarButton("/image/basket.png", "Carrello");
 		
 		toolBar.add(backButton);
 		toolBar.addSeparator();
@@ -75,7 +82,6 @@ public class ClientPanel extends CustomPanel{
 		//Load the products
 		ProductManager.loadProducts();
 		
-		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.weightx = 1f;
@@ -88,15 +94,38 @@ public class ClientPanel extends CustomPanel{
 			productsPanel.add(new ProductPanel(ProductManager.getProduct(i)), c);
 		}
 		
-		categoryCombo.setModel(new DefaultComboBoxModel<String>(ProductManager.getProductCategoryList()));
+		
+		Vector<String> categories = ProductManager.getProductCategoryList();
+		categories.add(0, CategoryFilter.CATEGORY_WILDCARD);
+		categoryCombo.setModel(new DefaultComboBoxModel<String>(categories));
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(backButton)){
+			BasketManager.clear();
 			panelManager.setCurrentPanel(LoginPanel.TAG);
 		}
+		else if(e.getSource().equals(searchButton)){
+			applyFilter(new NameFilter(nameField.getText()), new CategoryFilter((String)categoryCombo.getSelectedItem()));
+		}
+	}
+	
+	private void applyFilter(ProductFilter...filters) {
+		Product p;
 		
+		for(Component c : productsPanel.getComponents()){
+			c.setVisible(true);
+		}
+		
+		for(ProductFilter filter : filters){
+			for(Component c : productsPanel.getComponents()){
+				if(c.isVisible()){
+					p = ((ProductPanel)c).getProduct();
+					c.setVisible(filter.match(p));
+				}
+			}
+		}
 	}
 
 }
