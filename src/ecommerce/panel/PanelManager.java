@@ -13,11 +13,12 @@ public class PanelManager extends JFrame {
 	
 	public PanelManager() {
 
-		//Create the container
+		//Create the container and add all the panel
 		container = new JPanel(new CardLayout());
 		container.add(new LoginPanel(this), LoginPanel.TAG);
 		container.add(new AdminPanel(this), AdminPanel.TAG);
 		container.add(new ClientPanel(this), ClientPanel.TAG);
+		container.add(new BasketPanel(this), BasketPanel.TAG);
 		
 		add(container);
 		

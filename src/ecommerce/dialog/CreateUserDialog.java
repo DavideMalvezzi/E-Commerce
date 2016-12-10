@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.WindowConstants;
 
 import ecommerce.user.UserManager;
 
@@ -28,6 +29,7 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 		setModal(true);
 		setResizable(false);
 		setTitle("Inserisci nuovo utente");
+		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		
 		//Create GUI components
 		usernameField = new JTextField();
@@ -92,8 +94,6 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 					.addComponent(errorLabel)
 					.addComponent(saveButton)
 			);
-		
-
 	}
 
 	@Override

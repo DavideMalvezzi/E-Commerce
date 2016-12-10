@@ -285,6 +285,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 			dispose();
 		}
 		else if(e.getSource().equals(saveButton)){
+			//Create product instance based on the type selection
 			if(normalRadio.isSelected()){
 				product = new Product();
 			}
@@ -297,6 +298,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 			
 			//TODO: check if fields are empty
 			
+			//Set product attributes
 			product.setCode(codeField.getText());
 			product.setName(nameField.getText());
 			product.setCategory(categoryField.getText());
@@ -311,6 +313,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
+		//Enable discount spinner if the product has discount
 		if(e.getSource().equals(discountedRadio)){
 			discountSpinner.setEnabled(discountedRadio.isSelected());
 		}		
@@ -318,6 +321,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		//Load image if the image label is clicked
 		JFileChooser fChooser = new JFileChooser();
 		FileFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
 		fChooser.setFileFilter(imageFilter);
@@ -326,10 +330,10 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 			imagePath = fChooser.getSelectedFile().getAbsolutePath();
 			try {
 				imageLabel.setIcon(new ImageIcon(ImageLoader.loadImage(imagePath, imageLabel.getSize())));
+				imageLabel.setText("");
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-			imageLabel.setText("");
 		}
 	}
 	

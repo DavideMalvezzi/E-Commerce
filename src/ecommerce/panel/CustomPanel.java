@@ -42,6 +42,5 @@ public abstract class CustomPanel extends JPanel implements ActionListener{
 		
 		return button;
 	}
-
 	
 }

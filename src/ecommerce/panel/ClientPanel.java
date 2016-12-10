@@ -3,16 +3,13 @@ package ecommerce.panel;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.util.Vector;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 
 import ecommerce.basket.BasketManager;
+import ecommerce.dialog.FilterProductDialog;
 import ecommerce.product.Product;
 import ecommerce.product.ProductManager;
 import ecommerce.product.filter.ProductFilter;
@@ -38,7 +36,8 @@ public class ClientPanel extends CustomPanel{
 	private JComboBox<String> categoryCombo;
 	private JButton searchButton;
 	private JButton filterButton;
-	private JButton cartButton;
+	private JButton removeFilterButton;
+	private JButton basketButton;
 	private JPanel productsPanel;
 	
 		
@@ -58,8 +57,9 @@ public class ClientPanel extends CustomPanel{
 		categoryCombo.setMaximumSize(new Dimension(4096, 24));
 
 		searchButton = createToolBarButton("/image/search.png", "Cerca");
-		filterButton = createToolBarButton("/image/filter.png", "Applica filtro");
-		cartButton = createToolBarButton("/image/basket.png", "Carrello");
+		filterButton = createToolBarButton("/image/filter.png", "Applica filtri di ricerca");
+		basketButton = createToolBarButton("/image/basket.png", "Carrello");
+		removeFilterButton = createToolBarButton("/image/removefilter.png", "Rimuovi tutti i filtri di ricerca");
 		
 		toolBar.add(backButton);
 		toolBar.addSeparator();
@@ -67,8 +67,9 @@ public class ClientPanel extends CustomPanel{
 		toolBar.add(categoryCombo);
 		toolBar.add(searchButton);
 		toolBar.add(filterButton);
+		toolBar.add(removeFilterButton);
 		toolBar.add(Box.createHorizontalGlue()); // After this every component will be added to the right
-		toolBar.add(cartButton);
+		toolBar.add(basketButton);
 		
 		productsPanel = new JPanel();
 		productsPanel.setLayout(new GridBagLayout());		
@@ -106,17 +107,32 @@ public class ClientPanel extends CustomPanel{
 			BasketManager.clear();
 			panelManager.setCurrentPanel(LoginPanel.TAG);
 		}
+		
 		else if(e.getSource().equals(searchButton)){
-			applyFilter(new NameFilter(nameField.getText()), new CategoryFilter((String)categoryCombo.getSelectedItem()));
+			applyFilters(new NameFilter(nameField.getText()), new CategoryFilter((String)categoryCombo.getSelectedItem()));
+		}
+		
+		else if(e.getSource().equals(filterButton)){
+			FilterProductDialog fpDialog = new FilterProductDialog();
+			fpDialog.setVisible(true);
+			if(fpDialog.getFilters() != null && !fpDialog.getFilters().isEmpty()){
+				applyFilters((ProductFilter[])fpDialog.getFilters().toArray());
+			}
+		}
+		
+		else if(e.getSource().equals(removeFilterButton)){
+			removeAllFilters();
+		}
+		
+		else if(e.getSource().equals(basketButton)){
+			panelManager.setCurrentPanel(BasketPanel.TAG);
 		}
 	}
 	
-	private void applyFilter(ProductFilter...filters) {
+	private void applyFilters(ProductFilter...filters) {
 		Product p;
 		
-		for(Component c : productsPanel.getComponents()){
-			c.setVisible(true);
-		}
+		removeAllFilters();
 		
 		for(ProductFilter filter : filters){
 			for(Component c : productsPanel.getComponents()){
@@ -125,6 +141,15 @@ public class ClientPanel extends CustomPanel{
 					c.setVisible(filter.match(p));
 				}
 			}
+		}
+	}
+	
+	private void removeAllFilters(){
+		nameField.setText("");
+		categoryCombo.setSelectedIndex(0);
+		
+		for(Component c : productsPanel.getComponents()){
+			c.setVisible(true);
 		}
 	}
 

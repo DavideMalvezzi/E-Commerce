@@ -75,6 +75,7 @@ public class AdminPanel extends CustomPanel {
 		}
 		
 		else if(e.getSource().equals(loadButton)){
+			//Load a product file and set new file path in the configurations file
 			JFileChooser fileChooser = new JFileChooser();
 			int returnVal = fileChooser.showOpenDialog(this);
 			if(returnVal == JFileChooser.APPROVE_OPTION){
@@ -84,14 +85,14 @@ public class AdminPanel extends CustomPanel {
 				}
 				else{
 					Configuration.save();
-					productView.refresh();
 				}
+				productView.refresh();
 			}
 		}
 		
 		else if(e.getSource().equals(saveButton)){
 			if(!ProductManager.saveProducts()){
-				JOptionPane.showMessageDialog(this, "Errore durante il salvattagio del file dei prodotti.", "Errore", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Errore durante il salvataggio del file dei prodotti.", "Errore", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		
