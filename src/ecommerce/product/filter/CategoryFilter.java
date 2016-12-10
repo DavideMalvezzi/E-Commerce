@@ -4,7 +4,7 @@ import ecommerce.product.Product;
 
 public class CategoryFilter extends ProductFilter{
 
-	public static final String CATEGORY_WILDCARD = "Tutte";
+	public static final String ALL_CATEGORIES = "Tutte";
 	
 	private String category;
 	
@@ -15,7 +15,7 @@ public class CategoryFilter extends ProductFilter{
 
 	@Override
 	public boolean match(Product product) {
-		return category.equals(CATEGORY_WILDCARD) || product.getCategory().equals(category);
+		return category.equals(ALL_CATEGORIES) || product.getCategory().equals(category);
 	}
 
 	

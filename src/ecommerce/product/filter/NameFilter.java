@@ -6,6 +6,7 @@ public class NameFilter extends ProductFilter{
 	
 	private String name;
 	
+	
 	public NameFilter(String name) {
 		this.name = name;
 	}

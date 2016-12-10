@@ -1,16 +1,12 @@
 package ecommerce.dialog;
 
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -254,6 +250,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 			priceField.setText(Float.toString(product.getPrice()));
 			discountSpinner.setValue(product.getDiscount());
 			
+			imagePath = product.getImg();
 			if(product.getImg() != null){
 				imageLabel.setIcon(new ImageIcon(ImageLoader.loadImage(product.getImg(), imageLabel.getMinimumSize())));
 				imageLabel.setText("");

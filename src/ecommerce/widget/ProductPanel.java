@@ -4,10 +4,22 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.dnd.DnDConstants;
+import java.awt.dnd.DragGestureEvent;
+import java.awt.dnd.DragGestureListener;
+import java.awt.dnd.DragSource;
+import java.awt.dnd.DragSourceDragEvent;
+import java.awt.dnd.DragSourceDropEvent;
+import java.awt.dnd.DragSourceEvent;
+import java.awt.dnd.DragSourceListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
@@ -15,11 +27,13 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.BevelBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 
 import ecommerce.basket.BasketManager;
@@ -27,11 +41,14 @@ import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 import ecommerce.utils.ImageLoader;
 
-public class ProductPanel extends JPanel implements ActionListener, MouseListener{
+public class ProductPanel extends JPanel implements ActionListener, MouseListener, Transferable, DragSourceListener, DragGestureListener{
 
 	private Product product;
 	private JSpinner qtSpinner;
 	private JButton addCartButton;
+
+    private DragSource source;
+    private TransferHandler transferHandler;
 	
 	public ProductPanel(Product product) {
 		this.product = product;
@@ -171,6 +188,18 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 		
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addMouseListener(this);
+	
+		transferHandler = new TransferHandler(){
+			protected Transferable createTransferable(JComponent c) {
+				return ProductPanel.this;
+			};
+		};
+		
+		setTransferHandler(transferHandler);
+		
+		source = new DragSource();
+		source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
+		
 	}
 	
 	public Product getProduct(){
@@ -185,33 +214,67 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseClicked(MouseEvent e) {}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		setBackground(UIManager.getColor("List.selectionBackground"));
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		setBackground(UIManager.getColor("Panel.background"));
-		
+		setBackground(UIManager.getColor("Panel.background"));	
 	}
+
+	@Override
+	public DataFlavor[] getTransferDataFlavors() {
+		return new DataFlavor[]{
+				new DataFlavor(Product.class, "Product"),
+				new DataFlavor(Integer.class, "Qt")
+			};
+	}
+
+	@Override
+	public boolean isDataFlavorSupported(DataFlavor flavor) {
+		return true;
+	}
+
+	@Override
+	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+		if(flavor.getRepresentationClass().equals(Product.class)){
+			return product;
+		}
+		else if(flavor.getRepresentationClass().equals(Integer.class)){
+			return qtSpinner.getValue();
+		}
+		
+		return null;
+	}
+
+	@Override
+	public void dragGestureRecognized(DragGestureEvent dge) {
+		source.startDrag(dge, DragSource.DefaultMoveDrop, this, this);  		
+	}
+
+	@Override
+	public void dragEnter(DragSourceDragEvent dsde) {}
+
+	@Override
+	public void dragOver(DragSourceDragEvent dsde) {}
+
+	@Override
+	public void dropActionChanged(DragSourceDragEvent dsde) {}
+
+	@Override
+	public void dragExit(DragSourceEvent dse) {}
+
+	@Override
+	public void dragDropEnd(DragSourceDropEvent dsde) {}
 	
 }

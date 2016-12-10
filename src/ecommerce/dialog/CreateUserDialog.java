@@ -22,6 +22,8 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 	private JLabel errorLabel;
 	private JButton saveButton;
 	
+	//TODO: create directly the users and add cancel button
+	
 	public CreateUserDialog() {	
 		//Set dialog parameters
 		setSize(270, 160);
@@ -29,7 +31,6 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 		setModal(true);
 		setResizable(false);
 		setTitle("Inserisci nuovo utente");
-		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		
 		//Create GUI components
 		usernameField = new JTextField();

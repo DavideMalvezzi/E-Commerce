@@ -35,7 +35,7 @@ public class LoginPanel extends CustomPanel {
 		checkUsers();
 
 		//Create GUI components
-		JLabel welcomeLable = new JLabel("Benvenuto");
+		JLabel welcomeLable = new JLabel("Benvenuto!");
 		welcomeLable.setFont(new Font(welcomeLable.getFont().getFontName(), Font.BOLD, 32));
 		JLabel usernameLabel = new JLabel("Username:");
 		JLabel passwordLabel = new JLabel("Password:");

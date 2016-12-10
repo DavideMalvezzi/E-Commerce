@@ -108,4 +108,18 @@ public class ProductManager {
 		return categories;
 	}
 	
+	public static Vector<String> getProductBrandList(){
+		Vector<String> brands = new Vector<String>();
+		
+		for(int i = 0; i < products.size(); i++){
+			if(!brands.contains(products.get(i).getBrand())){
+				brands.add(products.get(i).getBrand());
+			}
+		}
+		
+		Collections.sort(brands);
+				
+		return brands;
+	}
+	
 }
