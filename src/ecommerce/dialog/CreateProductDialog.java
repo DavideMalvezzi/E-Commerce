@@ -60,13 +60,6 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 	}
 	
 	public CreateProductDialog(Product product) {		
-		//Set dialog options
-		setModal(true);
-		setResizable(false);
-		setSize(450, 260);
-		setTitle("Modifica un prodotto");
-		setLocationRelativeTo(null);
-
 		//Create GUI components
 		JLabel codeLabel = new JLabel("Codice:");
 		JLabel nameLabel = new JLabel("Nome:");
@@ -189,12 +182,12 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 								)
 								.addGroup(
 										gLayout.createParallelGroup()
-											.addComponent(codeField)
-											.addComponent(nameField)
-											.addComponent(brandField)
-											.addComponent(categoryField)
-											.addComponent(priceField)
-											.addComponent(discountSpinner)
+											.addComponent(codeField, 128, 128, 128)
+											.addComponent(nameField, 128, 128, 128)
+											.addComponent(brandField, 128, 128, 128)
+											.addComponent(categoryField, 128, 128, 128)
+											.addComponent(priceField, 128, 128, 128)
+											.addComponent(discountSpinner, 128, 128, 128)
 								)
 								.addComponent(imageLabel)
 					)
@@ -269,6 +262,14 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 		}
 		product = null;
 		
+		
+		//Set dialog options
+		pack();
+		setModal(true);
+		setResizable(false);
+		setTitle("Modifica un prodotto");
+		setLocationRelativeTo(null);
+		
 	}
 	
 	public Product getProduct(){
@@ -335,27 +336,15 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 	}
 	
 	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent e) {}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent e) {}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent e) {}
 	
 }

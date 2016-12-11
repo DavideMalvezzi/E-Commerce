@@ -41,7 +41,7 @@ import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 import ecommerce.utils.ImageLoader;
 
-public class ProductPanel extends JPanel implements ActionListener, MouseListener, Transferable, DragSourceListener, DragGestureListener{
+public class BuyProductPanel extends JPanel implements ActionListener, MouseListener, Transferable, DragSourceListener, DragGestureListener{
 
 	private Product product;
 	private JSpinner qtSpinner;
@@ -51,7 +51,7 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
     
     public static final String TRANSFER_HANDLER_PROP = "ProductPanel";
 	
-	public ProductPanel(Product product) {
+	public BuyProductPanel(Product product) {
 		this.product = product;
 		
 		JLabel nameLabel = new JLabel();
@@ -61,7 +61,6 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 		JLabel imgLabel = new JLabel();
 		JLabel offerLabel = new JLabel();
 		JLabel qtLabel = new JLabel("Quantità:");
-		
 		
 		nameLabel.setText(product.getName());
 		nameLabel.setFont(new Font(nameLabel.getFont().getFontName(), Font.BOLD, 36));
@@ -76,7 +75,7 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 			offerLabel.setText(
 					String.format(
 						"<html>"
-						+ "<font size='4'><strike>€ %.2f</strike><font color='red'>&nbsp;&nbsp;-%d%%&nbsp;&nbsp;&nbsp;</font></font><br>"
+						+ "<font size='4'><strike>€ %.2f</strike><font color='red'>&nbsp;&nbsp;-%d%%</font></font>"
 						+ "</html>", 
 						product.getPrice(), product.getDiscount()
 					)
@@ -87,7 +86,7 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 			offerLabel.setText(
 					String.format(
 						"<html>"
-						+ "<font size='4' color='red'>Offerta 3x2 &nbsp;&nbsp;<br></font>"
+						+ "<font size='4' color='red'>Offerta 3x2</font>"
 						+ "</html>"
 					)
 			);
@@ -95,12 +94,9 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 		}
 		else{
 			priceLabel.setText(String.format("<html>€ %.2f<html>", product.getPrice()));
-		}
-
-		
+		}		
 		priceLabel.setFont(new Font(nameLabel.getFont().getFontName(), Font.PLAIN, 28));
 
-		
 		imgLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		imgLabel.setVerticalAlignment(SwingConstants.CENTER);
 		imgLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -118,7 +114,7 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 		
 		qtSpinner = new JSpinner(new SpinnerNumberModel(1, 1, Short.MAX_VALUE, 1));
 		
-		addCartButton = new JButton(new ImageIcon(ProductPanel.class.getResource("/image/addbasket.png")));
+		addCartButton = new JButton(new ImageIcon(BuyProductPanel.class.getResource("/image/addbasket.png")));
 		addCartButton.addActionListener(this);
 
 		
@@ -151,8 +147,7 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 													.addComponent(qtLabel)
 													.addComponent(qtSpinner, 32, 32, 32)
 													.addComponent(addCartButton)
-										)
-										
+										)			
 							)
 					)
 					.addGap(16)
@@ -194,7 +189,7 @@ public class ProductPanel extends JPanel implements ActionListener, MouseListene
 		//Create transfer handler for the DnD
 		setTransferHandler(new TransferHandler(TRANSFER_HANDLER_PROP){
 			protected Transferable createTransferable(JComponent c) {
-				return ProductPanel.this;
+				return BuyProductPanel.this;
 			};
 		});
 		

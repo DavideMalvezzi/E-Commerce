@@ -30,4 +30,16 @@ public class User implements Serializable{
 		return isAdmin;
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setPasswordHash(int passwordHash) {
+		this.passwordHash = passwordHash;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+	
 }

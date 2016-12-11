@@ -141,9 +141,11 @@ public class LoginPanel extends CustomPanel {
 			cuDialog.setVisible(true);
 			
 			//Add admin and save users file
-			UserManager.addAdmin(cuDialog.getUsername(), cuDialog.getPassword());
-			if(!UserManager.saveUsers()){
-				JOptionPane.showMessageDialog(this, "Errore durante il salvataggio del file degli utenti.", "Errore", JOptionPane.ERROR_MESSAGE);
+			if(cuDialog.getUser() != null){
+				UserManager.addAdmin(cuDialog.getUser());
+				if(!UserManager.saveUsers()){
+					JOptionPane.showMessageDialog(this, "Errore durante il salvataggio del file degli utenti.", "Errore", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		}
 	}
@@ -191,10 +193,12 @@ public class LoginPanel extends CustomPanel {
 		else if(e.getSource().equals(createButton)){
 			CreateUserDialog cuDialog = new CreateUserDialog();
 			cuDialog.setVisible(true);
-
-			UserManager.addUser(cuDialog.getUsername(), cuDialog.getPassword());
-			if(!UserManager.saveUsers()){
-				JOptionPane.showMessageDialog(this, "Errore durante il salvataggio del file degli utenti.", "Errore", JOptionPane.ERROR_MESSAGE);
+			
+			if(cuDialog.getUser() != null){
+				UserManager.addUser(cuDialog.getUser());
+				if(!UserManager.saveUsers()){
+					JOptionPane.showMessageDialog(this, "Errore durante il salvataggio del file degli utenti.", "Errore", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			
 		}

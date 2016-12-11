@@ -13,7 +13,6 @@ public class BasketManager {
 	}
 	
 	public static void addProduct(Product product, int qt){
-		System.out.println("BasketManager.addProduct() add " + product.getName() + "  qt  "  + qt);
 		basket.put(product, qt);
 	}
 	
@@ -23,6 +22,18 @@ public class BasketManager {
 	
 	public static void clear(){
 		basket.clear();
+	}
+	
+	public static int getCount(){
+		return basket.size();
+	}
+	
+	public static Product getProduct(int index){
+		return (Product)basket.keySet().toArray()[index];
+	}
+	
+	public static int getProductQuantity(int index){
+		return (int)basket.values().toArray()[index];
 	}
 	
 }

@@ -11,8 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.WindowConstants;
 
+import ecommerce.user.User;
 import ecommerce.user.UserManager;
 
 public class CreateUserDialog extends JDialog implements ActionListener {
@@ -21,24 +21,21 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 	private JPasswordField passwordField;
 	private JLabel errorLabel;
 	private JButton saveButton;
+	private JButton cancelButton;
 	
-	//TODO: create directly the users and add cancel button
+	private User user = null;
+	
 	
 	public CreateUserDialog() {	
-		//Set dialog parameters
-		setSize(270, 160);
-		setLocationRelativeTo(null);
-		setModal(true);
-		setResizable(false);
-		setTitle("Inserisci nuovo utente");
-		
 		//Create GUI components
 		usernameField = new JTextField();
 		passwordField = new JPasswordField();
-		errorLabel = new JLabel();
+		errorLabel = new JLabel(" ");
 		errorLabel.setForeground(Color.RED);
 		saveButton = new JButton("Salva");
 		saveButton.addActionListener(this);
+		cancelButton = new JButton("Annulla");
+		cancelButton.addActionListener(this);
 		
 		JLabel usernameLabel = new JLabel("Username:");
 		JLabel passwordLabel = new JLabel("Password:");
@@ -53,6 +50,7 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 		jp.add(passwordLabel);
 		jp.add(passwordField);
 		jp.add(saveButton);
+		jp.add(cancelButton);
 		
 		add(jp);
 		
@@ -66,15 +64,19 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 					.addGroup(
 							gLayout.createParallelGroup()
 								.addComponent(usernameLabel)
-								.addComponent(usernameField, 0, 20, 20)
+								.addComponent(usernameField)
 					)
 					.addGroup(
 							gLayout.createParallelGroup()
 								.addComponent(passwordLabel)
-								.addComponent(passwordField, 0, 20, 20)
+								.addComponent(passwordField)
 					)
 					.addComponent(errorLabel)
-					.addComponent(saveButton)
+					.addGroup(
+							gLayout.createParallelGroup()
+								.addComponent(saveButton)
+								.addComponent(cancelButton)
+					)
 		);
 		
 		gLayout.setHorizontalGroup(
@@ -88,21 +90,39 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 							)
 							.addGroup(
 									gLayout.createParallelGroup()
-										.addComponent(usernameField)
-										.addComponent(passwordField)
+										.addComponent(usernameField, 100, 100, 100)
+										.addComponent(passwordField, 100, 100, 100)
 							)
 					)
 					.addComponent(errorLabel)
-					.addComponent(saveButton)
+					.addGroup(
+							gLayout.createSequentialGroup()
+								.addComponent(saveButton)
+								.addComponent(cancelButton)
+					)
 			);
+		gLayout.linkSize(cancelButton, saveButton);
+		
+		
+		//Set dialog parameters
+		pack();
+		setLocationRelativeTo(null);
+		setModal(true);
+		setResizable(false);
+		setTitle("Inserisci nuovo utente");
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		//If save button is pressed
-		if(e.getSource().equals(saveButton)){
+		
+		if(e.getSource().equals(cancelButton)){
+			user = null;
+			dispose();
+		}
+		
+		else if(e.getSource().equals(saveButton)){
 			//Print error if the username field is empty
-			if(getUsername().length() == 0){
+			if(usernameField.getText().length() == 0){
 				errorLabel.setText("L'username non può essere vuoto");
 				return;
 			}
@@ -112,21 +132,22 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 				return;
 			}
 			
-			if(UserManager.userExists(getUsername(), getPassword())){
+			if(UserManager.userExists(usernameField.getText(), getPassword())){
 				errorLabel.setText("L'utente è già esistente");
 				return;
 			}
+			user = new User(usernameField.getText(), getPassword());
 			
 			//Close the dialog
 			dispose();
 		}
 	}
 	
-	public String getUsername(){
-		return usernameField.getText();
+	public User getUser(){
+		return user;
 	}
 	
-	public String getPassword(){
+	private String getPassword(){
 		return new String(passwordField.getPassword());
 	}
 	

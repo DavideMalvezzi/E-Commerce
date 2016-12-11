@@ -38,7 +38,7 @@ import ecommerce.product.ProductManager;
 import ecommerce.product.filter.ProductFilter;
 import ecommerce.product.filter.CategoryFilter;
 import ecommerce.product.filter.NameFilter;
-import ecommerce.widget.ProductPanel;
+import ecommerce.widget.BuyProductPanel;
 
 public class ClientPanel extends CustomPanel implements DropTargetListener{
 
@@ -97,9 +97,6 @@ public class ClientPanel extends CustomPanel implements DropTargetListener{
 
 	@Override
 	public void onEnter() {
-		//Load the products
-		ProductManager.loadProducts();
-		
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridx = 0;
 		c.weightx = 1f;
@@ -109,10 +106,10 @@ public class ClientPanel extends CustomPanel implements DropTargetListener{
 		productsPanel.removeAll();
 		for(int i = 0; i < ProductManager.getProductCount(); i++){
 			c.gridy = i;
-			productsPanel.add(new ProductPanel(ProductManager.getProduct(i)), c);
+			productsPanel.add(new BuyProductPanel(ProductManager.getProduct(i)), c);
 		}
 		
-		
+		//Load categories list
 		Vector<String> categories = ProductManager.getProductCategoryList();
 		categories.add(0, CategoryFilter.ALL_CATEGORIES);
 		categoryCombo.setModel(new DefaultComboBoxModel<String>(categories));
@@ -157,7 +154,7 @@ public class ClientPanel extends CustomPanel implements DropTargetListener{
 		for(ProductFilter filter : filters){
 			for(Component c : productsPanel.getComponents()){
 				if(c.isVisible()){
-					p = ((ProductPanel)c).getProduct();
+					p = ((BuyProductPanel)c).getProduct();
 					c.setVisible(filter.match(p));
 				}
 			}

@@ -69,13 +69,12 @@ public class UserManager {
 		return false;
 	}
 	
-	public static void addUser(String name, String password){
-		User newUser = new User(name, password);
+	public static void addUser(User newUser){
 		users.put(newUser.getName() + newUser.getPasswordHash(), newUser);
 	}
 	
-	public static void addAdmin(String name, String password){
-		User newUser = new User(name, password, true);
+	public static void addAdmin(User newUser){
+		newUser.setAdmin(true);
 		users.put(newUser.getName() + newUser.getPasswordHash(), newUser);
 	}
 	

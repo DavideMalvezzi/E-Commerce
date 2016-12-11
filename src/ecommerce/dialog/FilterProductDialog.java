@@ -50,12 +50,6 @@ public class FilterProductDialog extends JDialog implements ActionListener, Item
 	
 	
 	public FilterProductDialog() {
-		setSize(300, 215);
-		setLocationRelativeTo(null);
-		setModal(true);
-		setResizable(false);
-		setTitle("Seleziona filtri di ricerca");
-		
 		JPanel jp = new JPanel();
 		GroupLayout gLayout = new GroupLayout(jp);
 		jp.setLayout(gLayout);
@@ -205,6 +199,12 @@ public class FilterProductDialog extends JDialog implements ActionListener, Item
 		
 		
 		add(jp);
+		
+		pack();
+		setLocationRelativeTo(null);
+		setModal(true);
+		setResizable(false);
+		setTitle("Seleziona filtri di ricerca");
 	}
 	
 	public Vector<ProductFilter> getFilters(){
@@ -259,7 +259,6 @@ public class FilterProductDialog extends JDialog implements ActionListener, Item
 			minPriceSpinner.setEnabled(priceCheck.isSelected());
 			maxPriceSpinner.setEnabled(priceCheck.isSelected());
 		}
-		
 	}
 	
 }
