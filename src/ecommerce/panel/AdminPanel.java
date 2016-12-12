@@ -65,7 +65,6 @@ public class AdminPanel extends CustomPanel {
 		//Load the products
 		ProductManager.loadProducts();
 		productView.refresh();
-
 	}
 
 	@Override

@@ -51,12 +51,14 @@ public class BasketPanel extends CustomPanel {
 	
 	@Override
 	public void onEnter() {
-		productsPanel.removeAll();
-		
-		System.out.println("Ci sono prodotti " + BasketManager.getCount());
-		
-		for(int i = 0; i < BasketManager.getCount(); i++){
-			productsPanel.add(new BasketProductPanel(BasketManager.getProduct(i), BasketManager.getProductQuantity(i)));
+		if(BasketManager.isDirty()){
+			productsPanel.removeAll();
+					
+			for(int i = 0; i < BasketManager.getCount(); i++){
+				productsPanel.add(new BasketProductPanel(BasketManager.getProduct(i), BasketManager.getProductQuantity(i)));
+			}
+			
+			BasketManager.setDirty(false);
 		}
 	}
 

@@ -14,8 +14,11 @@ import ecommerce.Configuration;
 
 public class ProductManager {
 	
+	private static boolean isDirty = true;
+	
 	//Products vector
 	private static Vector<Product> products = null;
+	
 	
 	private ProductManager() {
 	
@@ -33,6 +36,7 @@ public class ProductManager {
 				FileInputStream fis = new FileInputStream(productFile);
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				products = (Vector<Product>)ois.readObject();
+				isDirty = true;
 				ois.close();
 				return true;
 			} catch (Exception e) {
@@ -42,6 +46,7 @@ public class ProductManager {
 		else{
 			System.out.println("Products file not found");
 			products = new Vector<Product>();
+			isDirty = true;
 		}
 		return false;
 	}
@@ -69,18 +74,22 @@ public class ProductManager {
 	
 	public static void addProduct(Product p){
 		products.add(p);
+		isDirty = true;
 	}
 	
 	public static void replaceProduct(Product oldP, Product newP){
 		products.set(products.indexOf(oldP), newP);
+		isDirty = true;
 	}
 	
 	public static void removeProduct(Product p){
 		products.remove(p);
+		isDirty = true;
 	}
 	
 	public static void removeProduct(int index){
 		products.remove(index);
+		isDirty = true;
 	}
 	
 	public static int getProductCount(){
@@ -122,4 +131,13 @@ public class ProductManager {
 		return brands;
 	}
 	
+	public static boolean isDirty(){
+		return isDirty;
+	}
+
+	
+	public static void setDirty(boolean dirty){
+		isDirty = dirty;
+	}
 }
+

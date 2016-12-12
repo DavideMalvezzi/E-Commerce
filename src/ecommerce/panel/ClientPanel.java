@@ -97,22 +97,27 @@ public class ClientPanel extends CustomPanel implements DropTargetListener{
 
 	@Override
 	public void onEnter() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.weightx = 1f;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.insets = new Insets(4, 8, 4, 8);
-
-		productsPanel.removeAll();
-		for(int i = 0; i < ProductManager.getProductCount(); i++){
-			c.gridy = i;
-			productsPanel.add(new BuyProductPanel(ProductManager.getProduct(i)), c);
+		if(ProductManager.isDirty()){
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridx = 0;
+			c.weightx = 1f;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.insets = new Insets(4, 8, 4, 8);
+			
+			productsPanel.removeAll();
+			for(int i = 0; i < ProductManager.getProductCount(); i++){
+				c.gridy = i;
+				productsPanel.add(new BuyProductPanel(ProductManager.getProduct(i)), c);
+			}
+			
+			//Load categories list
+			Vector<String> categories = ProductManager.getProductCategoryList();
+			categories.add(0, CategoryFilter.ALL_CATEGORIES);
+			categoryCombo.setModel(new DefaultComboBoxModel<String>(categories));
+			
+			ProductManager.setDirty(false);
 		}
 		
-		//Load categories list
-		Vector<String> categories = ProductManager.getProductCategoryList();
-		categories.add(0, CategoryFilter.ALL_CATEGORIES);
-		categoryCombo.setModel(new DefaultComboBoxModel<String>(categories));
 	}
 	
 	@Override

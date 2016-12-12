@@ -1,5 +1,6 @@
 package ecommerce.widget;
 
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
@@ -12,21 +13,27 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
+import ecommerce.basket.BasketManager;
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 import ecommerce.utils.ImageLoader;
 
 public class BasketProductPanel extends JPanel implements ActionListener, MouseListener{
 
+
 	private JButton removeButton;
+	private Product product;
 	
 	
 	public BasketProductPanel(Product product, int qt) {
+		this.product = product;
+		
 		JLabel imgLabel = new JLabel();
 		
 		imgLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
@@ -83,10 +90,9 @@ public class BasketProductPanel extends JPanel implements ActionListener, MouseL
 		totLabel.setFont(new Font(totLabel.getFont().getFontName(), Font.PLAIN, 20));
 
 		removeButton = new JButton("Rimuovi dal carrello");
-		
+		removeButton.addActionListener(this);
 		
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-		
 		
 		add(imgLabel);
 		add(nameLabel);
@@ -100,8 +106,11 @@ public class BasketProductPanel extends JPanel implements ActionListener, MouseL
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		BasketManager.removeProduct(product);
+		Container parent = getParent();
+		parent.remove(this);
+		parent.revalidate();
+		parent.repaint();
 	}
 
 	@Override
