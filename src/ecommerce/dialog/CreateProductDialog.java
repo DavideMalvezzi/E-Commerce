@@ -33,32 +33,109 @@ import ecommerce.product.Product3x2;
 import ecommerce.utils.ImageLoader;
 import ecommerce.utils.JTextFieldFilter;
 
+/**
+ * @author Davide
+ * @file
+ * Dialog per la creazione/modifica dei dati di un prodotto
+ */
 public class CreateProductDialog extends JDialog implements ActionListener, MouseListener, ItemListener{
 	
+	/**
+	 * @var product
+	 * Istanza del prodotto da modificare
+	 */
 	private Product product;
 	
+	/**
+	 * @var codeField
+	 * Casella di testo contenente il codice del prodotto
+	 */
 	private JTextField codeField;
+	
+	/**
+	 * @var nameField
+	 * Casella di testo contenente il nome del prodotto
+	 */
 	private JTextField nameField;
+	
+	/**
+	 * @var brandField
+	 * Casella di testo contenente la marca del prodotto
+	 */
 	private JTextField brandField;
+	
+	/**
+	 * @var categoryField
+	 * Casella di testo contenente la categoria del prodotto
+	 */
 	private JTextField categoryField;
+	
+	/**
+	 * @var priceField
+	 * Casella di testo contenente il prezzo del prodotto
+	 */
 	private JTextField priceField;
+	
+	/**
+	 * @var discountSpinner
+	 * Spinner contenente lo sconto del prodotto
+	 */
 	private JSpinner discountSpinner;
+	
+	/**
+	 * @var imageLabel
+	 * Label utilizzata per la visualizzazione dell'immagine del prodotto
+	 */
 	private JLabel imageLabel;
+	
+	/**
+	 * @var imagePath
+	 * Stringa contenente il path dell'immagine del prodotto
+	 */
 	private String imagePath;
 	
+	/**
+	 * @var normalRadio
+	 * Radio per la gestione della tipologia del prodotto
+	 */
 	private JRadioButton normalRadio;
+	
+	/**
+	 * @var discountedRadio
+	 * Radio per la gestione della tipologia del prodotto
+	 */
 	private JRadioButton discountedRadio;
+	
+	/**
+	 * @var threextwoRadio
+	 * Radio per la gestione della tipologia del prodotto
+	 */
 	private JRadioButton threextwoRadio;
 	
+	/**
+	 * @var saveButton
+	 * Bottone di salvataggio
+	 */
 	private JButton saveButton;
+	
+	/**
+	 * @var cancelButton
+	 * Bottone di annullamento
+	 */
 	private JButton cancelButton;
 	
-	
+	/**
+	 * @brief Costruttore per la creazione di un prodotto
+	 */
 	public CreateProductDialog() {
 		this(null);
 		setTitle("Inserisci nuovo prodotto");
 	}
 	
+	/**
+	 * @brief Costruttore per la modifica di un prodotto già esistente
+	 * @param product Prodotto da modificare
+	 */
 	public CreateProductDialog(Product product) {		
 		//Create GUI components
 		JLabel codeLabel = new JLabel("Codice:");
@@ -272,6 +349,10 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 		
 	}
 	
+	/**
+	 * @brief Ritorna il prodotto creato o modificato
+	 * @return Prodotto
+	 */
 	public Product getProduct(){
 		return product;
 	}

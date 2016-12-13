@@ -15,17 +15,53 @@ import javax.swing.JTextField;
 import ecommerce.user.User;
 import ecommerce.user.UserManager;
 
+/**
+ * @author Davide
+ * @file
+ * Dialog per la creazione di un nuovo utente
+ */
 public class CreateUserDialog extends JDialog implements ActionListener {
 
+	/**
+	 * @var usernameField
+	 * Casella di testo contenente l'username
+	 */
 	private JTextField usernameField;
+
+	/**
+	 * @var passwordField
+	 *  Casella di testo contenente la password
+	 */
 	private JPasswordField passwordField;
+	
+	/**
+	 * @var errorLabel
+	 *  Label contenente eventuali errori 
+	 */
 	private JLabel errorLabel;
+	
+	/**
+	 * @var saveButton
+	 *  Bottone di salvataggio
+	 */
 	private JButton saveButton;
+	
+	/**
+	 * @var cancelButton
+	 *  Bottone di annullamento
+	 */
 	private JButton cancelButton;
 	
+	/**
+	 * @var user
+	 * Istanza contenente l'utente creato
+	 */
 	private User user = null;
 	
 	
+	/**
+	 * @brief Costruttore della dialog
+	 */
 	public CreateUserDialog() {	
 		//Create GUI components
 		usernameField = new JTextField();
@@ -114,8 +150,8 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		if(e.getSource().equals(cancelButton)){
+			//Dispose the dialog 
 			user = null;
 			dispose();
 		}
@@ -143,10 +179,18 @@ public class CreateUserDialog extends JDialog implements ActionListener {
 		}
 	}
 	
+	/**
+	 * @brief Ritorna l'utente creato
+	 * @return Utente creato
+	 */
 	public User getUser(){
 		return user;
 	}
 	
+	/**
+	 * @brief Ritorna una stringa contenente la password
+	 * @return Password
+	 */
 	private String getPassword(){
 		return new String(passwordField.getPassword());
 	}

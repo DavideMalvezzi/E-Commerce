@@ -17,6 +17,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 
 import ecommerce.basket.BasketManager;
@@ -24,7 +25,7 @@ import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 import ecommerce.utils.ImageLoader;
 
-public class BasketProductPanel extends JPanel implements ActionListener, MouseListener{
+public class BasketProductPanel extends JPanel implements ActionListener{
 
 
 	private JButton removeButton;
@@ -100,9 +101,8 @@ public class BasketProductPanel extends JPanel implements ActionListener, MouseL
 		add(qtLabel);
 		add(totLabel);
 		add(removeButton);
-		
+				
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -111,36 +111,6 @@ public class BasketProductPanel extends JPanel implements ActionListener, MouseL
 		parent.remove(this);
 		parent.revalidate();
 		parent.repaint();
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

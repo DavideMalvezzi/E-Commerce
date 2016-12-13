@@ -32,23 +32,90 @@ import ecommerce.product.filter.PriceFilter;
 import ecommerce.product.filter.ProductFilter;
 import ecommerce.product.filter.ThreexTwoFilter;
 
+/**
+ * @author Davide
+ * @file
+ * Dialog per la selezione dei filtri da applicare alla visualizzazione dei prodotti
+ */
+
 public class FilterProductDialog extends JDialog implements ActionListener, ItemListener, ChangeListener{
 
+	/**
+	 * @var filters
+	 * Vettore contenente tutti i filtri da applicare 
+	 */
 	private Vector<ProductFilter> filters = null;
 
+	/**
+	 * @var nameField
+	 * Casella di testo contenente una stringa da ricercare all'interno del nome dei prodotti
+	 */
 	private JTextField nameField;
+	
+	/**
+	 * @var categoryCombo
+	 * Combobox contenente le categorie dei prodotti
+	 */
 	private JComboBox<String> categoryCombo;
+	
+	/**
+	 * @var brandsCombo
+	 * Combobox contenente le marche dei prodotti
+	 */
 	private JComboBox<String> brandsCombo;
+	
+	/**
+	 * @var priceCheck
+	 * Checkbox per l'abilitazione del ricerca per prezzo
+	 */
 	private JCheckBox priceCheck;
-	private JSpinner minPriceSpinner, maxPriceSpinner;
+	
+	/**
+	 * @var minPriceSpinner
+	 * Spinner contenente il prezzo minimo da cercare
+	 */
+	private JSpinner minPriceSpinner;
+	
+	/**
+	 * @var maxPriceSpinner
+	 * Spinner contenente il prezzo massimo da cercare
+	 */
+	private JSpinner maxPriceSpinner;
+	
+	/**
+	 * @var normalCheck
+	 * Radio per filtrare i prodotti senza offerte
+	 */
 	private JRadioButton normalCheck;
+	
+	/**
+	 * @var discountCheck
+	 * Radio per filtrare i prodotti con sconto
+	 */
 	private JRadioButton discountCheck;
+	
+	/**
+	 * @var threextwoCheck
+	 * Radio per filtrare i prodotti con offerta 3x2
+	 */
 	private JRadioButton threextwoCheck;
 	
+	/**
+	 * @var applyButton
+	 * Bottone di conferma dei filtri
+	 */
 	private JButton applyButton;
+	
+	/**
+	 * @var cancelButton
+	 * Bottone di annullamento
+	 */
 	private JButton cancelButton;
 	
 	
+	/**
+	 *@brief Costruttore della dialog
+	 */
 	public FilterProductDialog() {
 		JPanel jp = new JPanel();
 		GroupLayout gLayout = new GroupLayout(jp);
@@ -207,6 +274,10 @@ public class FilterProductDialog extends JDialog implements ActionListener, Item
 		setTitle("Seleziona filtri di ricerca");
 	}
 	
+	/**
+	 * @brief Ritorna un vettore contenente i filtri da applicare
+	 * @return Vettore dei filtri da applicare
+	 */
 	public Vector<ProductFilter> getFilters(){
 		return filters;
 	}
@@ -214,9 +285,11 @@ public class FilterProductDialog extends JDialog implements ActionListener, Item
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource().equals(cancelButton)){
+			//Dispose the dialog
 			dispose();
 		}
 		else if(e.getSource().equals(applyButton)){
+			//Work out the filters to apply
 			filters = new Vector<ProductFilter>();
 			filters.add(new NameFilter(nameField.getText()));
 			filters.add(new BrandFilter((String)brandsCombo.getSelectedItem()));
@@ -225,12 +298,10 @@ public class FilterProductDialog extends JDialog implements ActionListener, Item
 			if(priceCheck.isSelected()){
 				filters.add(new PriceFilter((int)minPriceSpinner.getValue(), (int)maxPriceSpinner.getValue()));
 			}
-			
-			if(discountCheck.isSelected()){
+			else if(discountCheck.isSelected()){
 				filters.add(new DiscountFilter());
 			}
-			
-			if(threextwoCheck.isSelected()){
+			else if(threextwoCheck.isSelected()){
 				filters.add(new ThreexTwoFilter());
 			}		
 			
@@ -240,6 +311,7 @@ public class FilterProductDialog extends JDialog implements ActionListener, Item
 
 	@Override
 	public void stateChanged(ChangeEvent e) {
+		//Keep always min price <= max price
 		if(e.getSource().equals(minPriceSpinner)){
 			if((int)minPriceSpinner.getValue() > (int)maxPriceSpinner.getValue()){
 				maxPriceSpinner.setValue((int)minPriceSpinner.getValue() + 1);
@@ -250,12 +322,12 @@ public class FilterProductDialog extends JDialog implements ActionListener, Item
 				minPriceSpinner.setValue((int)maxPriceSpinner.getValue() - 1);
 			}
 		}
-		
 	}
 
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if(e.getSource().equals(priceCheck)){
+			//Enable/disable min price and max price spinner on the price checkbox toggle event
 			minPriceSpinner.setEnabled(priceCheck.isSelected());
 			maxPriceSpinner.setEnabled(priceCheck.isSelected());
 		}
