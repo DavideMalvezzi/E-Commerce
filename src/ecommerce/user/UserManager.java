@@ -7,18 +7,38 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
+
+/**
+ * @author Davide
+ * @file
+ * Classe contentente metodi statici per la gestione del singleton rappresentante l'insieme degli utenti 
+ */
 public class UserManager {
 	
-	//Users configuration file name
+	/**
+	 * @var usersFileName
+	 * Costante contenente il nome del file degli utenti
+	 */
 	private static final String usersFileName = ".e-users";
 	
-	//Users map index by password hash
+	/**
+	 * @var users
+	 * Hashmap che associa una stringa univoca ad ogni utente
+	 */
 	private static HashMap<String, User> users = null; 
 	
+	
+	/**
+	 * @brief Costruttutore privare per evitare la creazione di un'istanza
+	 */
 	private UserManager(){
 		
 	}
 	
+	/**
+	 * @brief Carica il file degli utenti
+	 * @return true se il caricamento è andato a buon fine
+	 */
 	public static boolean loadUsers(){
 		//Get the users configuration file path
 		String homeFolder = System.getProperty("user.home");
@@ -47,6 +67,10 @@ public class UserManager {
 		return false;
 	}
 	
+	/**
+	 * @brief Salva il file degli utenti
+	 * @return true se il salvataggio è andato a buon fine
+	 */
 	public static boolean saveUsers(){
 		//Get the users configuration file path
 		String homeFolder = System.getProperty("user.home");
@@ -69,19 +93,35 @@ public class UserManager {
 		return false;
 	}
 	
+	/**
+	 * @brief Aggiunge un nuovo utente
+	 */
 	public static void addUser(User newUser){
 		users.put(newUser.getName() + newUser.getPasswordHash(), newUser);
 	}
 	
+	/**
+	 * @brief Aggiunge un nuovo amministratore
+	 */
 	public static void addAdmin(User newUser){
 		newUser.setAdmin(true);
 		users.put(newUser.getName() + newUser.getPasswordHash(), newUser);
 	}
 	
+	/**
+	 * @brief Ritorna il numero degli utenti
+	 * @return Numero utenti
+	 */
 	public static int getUserCount(){
 		return users == null ? 0 : users.size();
 	}
 	
+	/**
+	 * @brief Controlla se un utente esiste
+	 * @param name Nome utente
+	 * @param password Password utente
+	 * @return true se l'utente esiste
+	 */
 	public static boolean userExists(String name, String password){
 		User user = null;
 		
@@ -92,6 +132,12 @@ public class UserManager {
 		return user != null;
 	}
 	
+	/**
+	 * @brief Ritorna se esiste l'istanza di un utente
+	 * @param name Nome dell'utente da cercare
+	 * @param password Password dell'utente da cercare
+	 * @return Istanza dell'utente se esiste altrimenti null
+	 */
 	public static User getUser(String name, String password){
 		User user = null;
 		

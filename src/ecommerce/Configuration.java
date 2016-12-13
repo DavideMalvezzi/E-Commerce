@@ -7,23 +7,51 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
-
+/**
+ * @author Davide
+ * @file
+ * Classe contentente metodi statici per la gestione del singleton rappresentante le configurazioni del programma.
+ * La classe è serializzabile per il salvataggio su file.  
+ */
 public class Configuration implements Serializable{
 
+	/**
+	 * @var configFileName
+	 * Costante contenente il nome del file di configurazione
+	 */
 	private static final String configFileName = ".e-config";
 	
+	/**
+	 * @var instance
+	 * Istanza delle configurazioni
+	 */
 	private static Configuration instance = null;
 	
+	/**
+	 * @var productFilePath
+	 * Path del file dei prodotti
+	 */
 	public String productFilePath = System.getProperty("user.home") + File.separator + ".e-products";
 	
+	
+	/**
+	 * @brief Costruttore privato per evitare la creazione di un'istanza
+	 */
 	private Configuration() {
 		
 	}
 	
+	/**
+	 * @brief Ritorna l'istanza delle configurazioni
+	 * @return
+	 */
 	public static Configuration getInstance(){
 		return instance;
 	}
 	
+	/**
+	 * @brief Carica le configurazioni da file
+	 */
 	public static void load(){
 		String homeFolder = System.getProperty("user.home");
 		File configFile = new File(homeFolder + File.separator + configFileName);
@@ -48,6 +76,9 @@ public class Configuration implements Serializable{
 		}
 	}
 	
+	/**
+	 * @brief Salva su file le configurazioni
+	 */
 	public static void save(){
 		//Get the users configuration file path
 		String homeFolder = System.getProperty("user.home");

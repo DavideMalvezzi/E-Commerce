@@ -8,8 +8,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * @author Davide
+ * @file
+ * Classe contenente metodi statici per il caricamento e il resize di immagini
+ */
 public class ImageLoader {
 
+	/**
+	 * @brief Carica un'immagine mantenendone l'aspect ratio
+	 * @param path Path dell'immagine da caricare
+	 * @param size Dimensione del contenitore dell'immagine
+	 * @return Immagine caricata o null se l'immagine non esiste
+	 */
 	public static Image loadImage(String path, Dimension size){
 		
 		if(path != null && !path.isEmpty()){
@@ -27,6 +38,12 @@ public class ImageLoader {
 		return null;
 	}
 
+	/**
+	 * @brief Calcola la dimensione che mantenga l'aspect ratio dell'immagine e sia minore uguale delle dimensioni del contenitore
+	 * @param imgSize Dimensione originale dell'immagine
+	 * @param boundary Dimensione del contenitore dell'immagine
+	 * @return Dimensione finale
+	 */
 	private static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) {
 	    int original_width = imgSize.width;
 	    int original_height = imgSize.height;
