@@ -21,6 +21,7 @@ import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 
 import ecommerce.basket.BasketManager;
+import ecommerce.basket.BasketProductRemoved;
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 import ecommerce.utils.ImageLoader;
@@ -31,9 +32,12 @@ public class BasketProductPanel extends JPanel implements ActionListener{
 	private JButton removeButton;
 	private Product product;
 	
+	private BasketProductRemoved removeListener;
 	
-	public BasketProductPanel(Product product, int qt) {
+	
+	public BasketProductPanel(Product product, int qt, BasketProductRemoved removeListener) {
 		this.product = product;
+		this.removeListener = removeListener;
 		
 		JLabel imgLabel = new JLabel();
 		
@@ -103,14 +107,14 @@ public class BasketProductPanel extends JPanel implements ActionListener{
 		add(removeButton);
 				
 	}
+	
+	public Product getProduct() {
+		return product;
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		BasketManager.removeProduct(product);
-		Container parent = getParent();
-		parent.remove(this);
-		parent.revalidate();
-		parent.repaint();
+		removeListener.onBasketProductRemoved(this);
 	}
 
 }

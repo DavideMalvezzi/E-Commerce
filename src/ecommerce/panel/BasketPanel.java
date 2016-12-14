@@ -1,26 +1,31 @@
 package ecommerce.panel;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.Container;
 import java.awt.event.ActionEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 
 import ecommerce.basket.BasketManager;
+import ecommerce.basket.BasketProductRemoved;
+import ecommerce.product.Product;
 import ecommerce.utils.WrapLayout;
 import ecommerce.widget.BasketProductPanel;
 
-public class BasketPanel extends CustomPanel {
+public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 	
 	public static final String TAG = "basket";
 
 	private JButton backButton;
 	private JButton clearBasket;
 	private JButton buyButton;
+	
+	private JLabel totLabel;
 	
 	private JPanel productsPanel;
 		
@@ -37,11 +42,17 @@ public class BasketPanel extends CustomPanel {
 		clearBasket = createToolBarButton("/image/removebasket.png", "Svuota carrello");
 		buyButton = createToolBarButton("/image/buy.png", "Conferma acquisto");
 		
+		totLabel = new JLabel("0.00");
+		
 		toolBar.add(backButton);
 		toolBar.addSeparator();
 		toolBar.add(clearBasket);
 		toolBar.add(Box.createHorizontalGlue());
+		toolBar.add(new JLabel("Totale: € "));
+		toolBar.add(totLabel);
+		toolBar.addSeparator();
 		toolBar.add(buyButton);
+	
 		
 		productsPanel = new JPanel(new WrapLayout(WrapLayout.CENTER, 32, 32));
 	
@@ -55,11 +66,13 @@ public class BasketPanel extends CustomPanel {
 			productsPanel.removeAll();
 					
 			for(int i = 0; i < BasketManager.getCount(); i++){
-				productsPanel.add(new BasketProductPanel(BasketManager.getProduct(i), BasketManager.getProductQuantity(i)));
+				productsPanel.add(new BasketProductPanel(BasketManager.getProduct(i), BasketManager.getProductQuantity(i), this));
 			}
 			
 			BasketManager.setDirty(false);
 		}
+		
+		reloadTotal();
 	}
 
 	@Override
@@ -70,7 +83,31 @@ public class BasketPanel extends CustomPanel {
 		else if(e.getSource().equals(clearBasket)){
 			BasketManager.clear();
 		}
+		else if(e.getSource().equals(buyButton)){
+			panelManager.setCurrentPanel(BuyPanel.TAG);
+		}
+		else{
+			reloadTotal();
+		}
 		
+	}
+	
+	private void reloadTotal() {
+		float total = 0;
+		for(int i = 0; i < BasketManager.getCount(); i++){
+			total += BasketManager.getProduct(i).getTotal(BasketManager.getProductQuantity(i));
+		}
+		totLabel.setText(String.format("%.2f", total));
+	}
+
+	@Override
+	public void onBasketProductRemoved(BasketProductPanel basketProductPanel) {
+		Product product = basketProductPanel.getProduct();
+		BasketManager.removeProduct(product);
+		reloadTotal();
+		productsPanel.remove(basketProductPanel);
+		productsPanel.revalidate();
+		productsPanel.repaint();
 	}
 
 }

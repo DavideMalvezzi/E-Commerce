@@ -43,7 +43,7 @@ public class Configuration implements Serializable{
 	
 	/**
 	 * @brief Ritorna l'istanza delle configurazioni
-	 * @return
+	 * @return Istanza del singleton
 	 */
 	public static Configuration getInstance(){
 		return instance;

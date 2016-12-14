@@ -57,6 +57,7 @@ public class UserManager {
 				return true;
 			} catch (Exception e) {
 				e.printStackTrace();
+				users = new HashMap<String, User>();			
 			}
 		}
 		else{

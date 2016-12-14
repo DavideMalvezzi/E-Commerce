@@ -1,6 +1,7 @@
 package ecommerce;
 
 
+import ecommerce.panel.BuyPanel;
 import ecommerce.panel.LoginPanel;
 import ecommerce.panel.PanelManager;
 import ecommerce.product.ProductManager;
@@ -20,7 +21,7 @@ public class Main {
 		
 		//Create the main program window and all the panels
 		PanelManager pm = new PanelManager();
-		pm.setCurrentPanel(LoginPanel.TAG);
+		pm.setCurrentPanel(BuyPanel.TAG);
 			
 	}
 	
