@@ -1,5 +1,9 @@
 package ecommerce.panel;
 
+import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -10,6 +14,8 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ecommerce.basket.BasketManager;
@@ -37,6 +43,14 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 	
 	public BuyPanel(PanelManager panelManager) {
 		super(panelManager);
+		
+		JLabel infoLabel = new JLabel(
+				  "<html>"
+				+	"<i><font size='4'>"
+				+ 		"Inserisci le informazioni del punto di consegna e al metodo di pagamento per completare l'acquisto:"
+				+  "</font></i>"
+				+ "</html>"
+				);
 		
 		JLabel userLabel = new JLabel("Nome e Cognome:");
 		JLabel addressLabel = new JLabel("Indirizzo:");
@@ -80,14 +94,21 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 		cancelButton = new JButton("Annulla");
 		cancelButton.addActionListener(this);
 		
-		GroupLayout gLayout = new GroupLayout(this);
-		setLayout(gLayout);
+		GridBagLayout gbLayout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		setLayout(gbLayout);
+		
+		JPanel jp = new JPanel();
+		GroupLayout gLayout = new GroupLayout(jp);
+		jp.setLayout(gLayout);
 		
 		gLayout.setAutoCreateContainerGaps(true);
 		gLayout.setAutoCreateGaps(true);
 		
 		gLayout.setVerticalGroup(
 				gLayout.createSequentialGroup()
+					.addComponent(infoLabel)
+					.addGap(16)
 					.addGroup(
 							gLayout.createParallelGroup()
 							.addComponent(userLabel)
@@ -128,6 +149,7 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 							.addComponent(phoneLabel)
 							.addComponent(phoneField)
 					)
+					.addGap(16)
 					.addGroup(
 							gLayout.createParallelGroup()
 							.addComponent(okButton)
@@ -136,76 +158,59 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 		);
 		
 		gLayout.setHorizontalGroup(
-				gLayout.createSequentialGroup()
+				gLayout.createParallelGroup()
+					.addComponent(infoLabel)
 					.addGroup(
-							gLayout.createParallelGroup()
-								.addComponent(userLabel)
-								.addComponent(addressLabel)
-								.addComponent(cityLabel)
-								.addComponent(provinceLabel)
-								.addComponent(capLabel)
-								.addComponent(phoneLabel)
-					)
-					.addGroup(
-							gLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(userField)
-								.addComponent(addressField)
-								.addComponent(cityField)
-								.addComponent(provinceField)
-								.addComponent(capField)
-								.addComponent(phoneField)
-								.addComponent(okButton)
-					)
-					.addGroup(
-							gLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(paymentLabel)
-								.addComponent(ownerLabel)
-								.addComponent(cardLabel)
-								.addComponent(monthLabel)
-								.addComponent(yearLabel)
-								.addComponent(cancelButton)
-					)
-					.addGroup(
-							gLayout.createParallelGroup()
-								.addComponent(paymentCombo)
-								.addComponent(ownerField)
-								.addComponent(cardField)
-								.addComponent(monthCombo)
-								.addComponent(yearCombo)
-					)
-				);
+							gLayout.createSequentialGroup()
+								.addGroup(
+										gLayout.createParallelGroup()
+											.addComponent(userLabel)
+											.addComponent(addressLabel)
+											.addComponent(cityLabel)
+											.addComponent(provinceLabel)
+											.addComponent(capLabel)
+											.addComponent(phoneLabel)
+								)
+								.addGroup(
+										gLayout.createParallelGroup(Alignment.TRAILING)
+											.addComponent(userField)
+											.addComponent(addressField)
+											.addComponent(cityField)
+											.addComponent(provinceField)
+											.addComponent(capField)
+											.addComponent(phoneField)
+											.addComponent(okButton)
+								)
+								.addGroup(
+										gLayout.createParallelGroup(Alignment.LEADING)
+											.addComponent(paymentLabel)
+											.addComponent(ownerLabel)
+											.addComponent(cardLabel)
+											.addComponent(monthLabel)
+											.addComponent(yearLabel)
+											.addComponent(cancelButton)
+								)
+								.addGroup(
+										gLayout.createParallelGroup()
+											.addComponent(paymentCombo)
+											.addComponent(ownerField)
+											.addComponent(cardField)
+											.addComponent(monthCombo)
+											.addComponent(yearCombo)
+								)
+							)
+				
+		);
 		
 		gLayout.linkSize(okButton, cancelButton);
 		
-		add(userLabel);
-		add(addressLabel);
-		add(cityLabel);
-		add(provinceLabel);
-		add(capLabel);
-		add(phoneLabel);
-
-		add(userField);
-		add(addressField);
-		add(cityField);
-		add(provinceField);
-		add(capField);
-		add(phoneField);
-		
-		add(paymentLabel);
-		add(ownerLabel);
-		add(cardLabel);
-		add(monthLabel);
-		add(yearLabel);
-
-		add(userField);
-		add(addressField);
-		add(cityField);
-		add(provinceField);
-		add(capField);
-		add(phoneField);
+		c.fill = GridBagConstraints.BOTH ;
+		c.insets = new Insets(32, 32, 32, 32); 
+		c.weightx = 0.8f;
+		c.anchor = GridBagConstraints.PAGE_START;
+		add(jp, c);
 
 	}
-	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -213,17 +218,15 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 			panelManager.setCurrentPanel(BasketPanel.TAG);
 		}
 		else if(e.getSource().equals(okButton)){
+			//TODO: check if fields are empty
+			JOptionPane.showMessageDialog(this, "L'ordine è stato inoltrato con successo");
 			BasketManager.clear();
-			panelManager.setCurrentPanel(BasketPanel.TAG);
+			panelManager.setCurrentPanel(ClientPanel.TAG);
 		}
 	}
 
-
 	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
-
+	public void keyTyped(KeyEvent e) {}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -235,11 +238,7 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 		}		
 	}
 
-
 	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void keyReleased(KeyEvent e) {}
 
 }

@@ -14,7 +14,28 @@ import javax.imageio.ImageIO;
  * Classe contenente metodi statici per il caricamento e il resize di immagini
  */
 public class ImageLoader {
-
+	
+	/**
+	 * @brief Carica un'immagine 
+	 * @param path Path dell'immagine da caricare
+	 * @return Immagine caricata o null se l'immagine non esiste
+	 */
+	public static Image loadImage(String path){
+		if(path != null && !path.isEmpty()){
+			File f = new File(path);	
+			if(f.exists()){
+				try {
+					BufferedImage img = ImageIO.read(new File(path));
+					return img;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * @brief Carica un'immagine mantenendone l'aspect ratio
 	 * @param path Path dell'immagine da caricare
@@ -22,7 +43,6 @@ public class ImageLoader {
 	 * @return Immagine caricata o null se l'immagine non esiste
 	 */
 	public static Image loadImage(String path, Dimension size){
-		
 		if(path != null && !path.isEmpty()){
 			File f = new File(path);	
 			if(f.exists()){

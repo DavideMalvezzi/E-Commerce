@@ -2,11 +2,14 @@ package ecommerce.panel;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -37,6 +40,7 @@ public class LoginPanel extends CustomPanel {
 		//Create GUI components
 		JLabel welcomeLable = new JLabel("Benvenuto!");
 		welcomeLable.setFont(new Font(welcomeLable.getFont().getFontName(), Font.BOLD, 32));
+		welcomeLable.setIcon(new ImageIcon(LoginPanel.class.getResource("/image/icon96x96.png")));
 		JLabel usernameLabel = new JLabel("Username:");
 		JLabel passwordLabel = new JLabel("Password:");
 		
@@ -48,7 +52,7 @@ public class LoginPanel extends CustomPanel {
 		loginButton.addActionListener(this);
 		createButton = new JButton("Crea utente");
 		createButton.addActionListener(this);
-		
+				
 		//Create internal panel and layout
 		JPanel jp = new JPanel();
 		GroupLayout layout = new GroupLayout(jp);
@@ -61,11 +65,15 @@ public class LoginPanel extends CustomPanel {
 		jp.add(passwordField);
 		jp.add(errorLabel);
 		jp.add(loginButton);
+		jp.setBackground(new Color(0x94d5d4));
+		jp.setBorder(BorderFactory.createEtchedBorder(jp.getBackground().brighter(), jp.getBackground().darker()));
 		
 		//Create layout
 		GridBagLayout gbLayout = new GridBagLayout();
+		GridBagConstraints c = new GridBagConstraints();
+		c.anchor = GridBagConstraints.CENTER;
 		setLayout(gbLayout);
-		add(jp);
+		add(jp, c);
 		
 		//Add auto gaps to layout
 		layout.setAutoCreateGaps(true);

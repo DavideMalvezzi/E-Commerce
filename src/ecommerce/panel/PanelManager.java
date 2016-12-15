@@ -2,9 +2,13 @@ package ecommerce.panel;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.Panel;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import ecommerce.utils.ImageLoader;
 
 
 public class PanelManager extends JFrame {
@@ -26,7 +30,7 @@ public class PanelManager extends JFrame {
 		
 		//Set windows settings
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		//setResizable(false);
+		setIconImage(new ImageIcon(PanelManager.class.getResource("/image/icon32x32.png")).getImage());
 		setSize(800, 600);
 		setMinimumSize(new Dimension(400, 300));
 		setTitle("E-Commerce");
