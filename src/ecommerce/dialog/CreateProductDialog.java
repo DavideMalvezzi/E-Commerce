@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
@@ -375,17 +376,28 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 				product = new Product3x2();
 			}
 			
-			//TODO: check if fields are empty
+			if(codeField.getText().replaceAll(" ", "").length() == 0 ||
+				nameField.getText().replaceAll(" ", "").length() == 0 ||
+				categoryField.getText().replaceAll(" ", "").length() == 0 ||
+				brandField.getText().replaceAll(" ", "").length() == 0 ||
+				Float.parseFloat(priceField.getText()) <= 0){
+				
+				JOptionPane.showMessageDialog(this, "Uno dei campi relativi al prodotto è vuoto", "Errore", JOptionPane.ERROR_MESSAGE);
+				
+			}
+			else{
+				//Set product attributes
+				product.setCode(codeField.getText());
+				product.setName(nameField.getText());
+				product.setCategory(categoryField.getText());
+				product.setBrand(brandField.getText());
+				product.setPrice(Float.parseFloat(priceField.getText()));
+				product.setDiscount((Integer)discountSpinner.getValue());
+				product.setImg(imagePath);
+				dispose();
+			}
 			
-			//Set product attributes
-			product.setCode(codeField.getText());
-			product.setName(nameField.getText());
-			product.setCategory(categoryField.getText());
-			product.setBrand(brandField.getText());
-			product.setPrice(Float.parseFloat(priceField.getText()));
-			product.setDiscount((Integer)discountSpinner.getValue());
-			product.setImg(imagePath);
-			dispose();
+		
 		}
 		
 	}

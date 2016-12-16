@@ -1,5 +1,6 @@
 package ecommerce.widget;
 
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -47,6 +48,7 @@ public class BasketProductPanel extends JPanel implements ActionListener{
 		imgLabel.setMaximumSize(imgLabel.getPreferredSize());
 		imgLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		imgLabel.setVerticalAlignment(SwingConstants.CENTER);
+		imgLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		Image img = ImageLoader.loadImage(product.getImg(), imgLabel.getPreferredSize());
 		if(img != null){
@@ -58,8 +60,11 @@ public class BasketProductPanel extends JPanel implements ActionListener{
 		
 		JLabel nameLabel = new JLabel(product.getName());
 		nameLabel.setFont(new Font(nameLabel.getFont().getFontName(), Font.BOLD, 28));
+		nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		JLabel priceLabel = new JLabel();
+		priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		
 		if(product.getDiscount() > 0){
 			priceLabel.setText(
@@ -89,15 +94,21 @@ public class BasketProductPanel extends JPanel implements ActionListener{
 			priceLabel.setText(String.format("<html>Prezzo: € %.2f<html>", product.getPrice()));
 		}		
 		
-		JLabel qtLabel = new JLabel("Quantità: " + qt);
+		JLabel qtLabel = new JLabel("<html>Quantità: " + qt + "</html>");
+		qtLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		
-		JLabel totLabel = new JLabel(String.format("Totale: € %.2f", product.getTotal(qt)));
+		JLabel totLabel = new JLabel(String.format("<html>Totale: € %.2f </html>", product.getTotal(qt)));
 		totLabel.setFont(new Font(totLabel.getFont().getFontName(), Font.PLAIN, 20));
+		totLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 
 		removeButton = new JButton("Rimuovi dal carrello");
 		removeButton.addActionListener(this);
+		removeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		
-		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		add(imgLabel);
 		add(nameLabel);

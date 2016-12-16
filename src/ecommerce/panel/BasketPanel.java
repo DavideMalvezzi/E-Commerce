@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
@@ -84,7 +85,12 @@ public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 			BasketManager.clear();
 		}
 		else if(e.getSource().equals(buyButton)){
-			panelManager.setCurrentPanel(BuyPanel.TAG);
+			if(BasketManager.getCount() > 0){
+				panelManager.setCurrentPanel(BuyPanel.TAG);
+			}
+			else{
+				JOptionPane.showMessageDialog(this, "Impossibile procedere all'acquisto: il carrello è vuoto", "Errore", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 		else{
 			reloadTotal();
@@ -104,7 +110,9 @@ public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 	public void onBasketProductRemoved(BasketProductPanel basketProductPanel) {
 		Product product = basketProductPanel.getProduct();
 		BasketManager.removeProduct(product);
+		
 		reloadTotal();
+		
 		productsPanel.remove(basketProductPanel);
 		productsPanel.revalidate();
 		productsPanel.repaint();

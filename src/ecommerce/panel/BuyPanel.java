@@ -205,7 +205,7 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 		gLayout.linkSize(okButton, cancelButton);
 		
 		c.fill = GridBagConstraints.BOTH ;
-		c.insets = new Insets(32, 32, 32, 32); 
+		c.insets = new Insets(32, 64, 32, 64); 
 		c.weightx = 0.8f;
 		c.anchor = GridBagConstraints.PAGE_START;
 		add(jp, c);
@@ -218,10 +218,24 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 			panelManager.setCurrentPanel(BasketPanel.TAG);
 		}
 		else if(e.getSource().equals(okButton)){
-			//TODO: check if fields are empty
-			JOptionPane.showMessageDialog(this, "L'ordine è stato inoltrato con successo");
-			BasketManager.clear();
-			panelManager.setCurrentPanel(ClientPanel.TAG);
+			
+			if(userField.getText().replaceAll(" ", "").length() == 0 ||
+					addressField.getText().replaceAll(" ", "").length() == 0 ||
+					cityField.getText().replaceAll(" ", "").length() == 0 ||
+					provinceField.getText().replaceAll(" ", "").length() == 0 ||
+					capField.getText().replaceAll(" ", "").length() == 0 ||
+					phoneField.getText().replaceAll(" ", "").length() == 0){
+				
+				JOptionPane.showMessageDialog(this, "Uno dei campi relativi al punto di consegna è vuoto", "Errore", JOptionPane.ERROR_MESSAGE);
+			}
+			else if(ownerField.getText().replaceAll(" ", "").length() == 0 || cardField.getText().replaceAll(" ", "").length() == 0){
+				JOptionPane.showMessageDialog(this, "Uno dei campi relativi al metodo di pagamento è vuoto", "Errore", JOptionPane.ERROR_MESSAGE);
+			}
+			else{
+				JOptionPane.showMessageDialog(this, "L'ordine è stato inoltrato con successo");
+				BasketManager.clear();
+				panelManager.setCurrentPanel(ClientPanel.TAG);
+			}
 		}
 	}
 
