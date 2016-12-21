@@ -12,6 +12,7 @@ import ecommerce.Configuration;
 import ecommerce.dialog.CreateProductDialog;
 import ecommerce.product.Product;
 import ecommerce.product.ProductManager;
+import ecommerce.widget.model.AdminViewModel;
 import ecommerce.widget.view.AdminProductView;
 
 public class AdminPanel extends CustomPanel {
@@ -53,7 +54,7 @@ public class AdminPanel extends CustomPanel {
 		toolBar.add(editButton);
 		toolBar.add(removeButton);
 		
-		productView = new AdminProductView();
+		productView = new AdminProductView(new AdminViewModel());
 		
 		add(toolBar, BorderLayout.PAGE_START);		
 		add(productView, BorderLayout.CENTER);

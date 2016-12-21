@@ -2,6 +2,7 @@ package ecommerce.widget.model;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
@@ -20,6 +21,13 @@ public class AdminViewModel extends AbstractTableModel {
 	public static final int CATEGORY_COL = 4;
 	public static final int PRICE_COL = 5;
 	public static final int OFFER_COL = 6;
+	
+	private HashMap<String, ImageIcon> productsImgCache;
+	
+	public AdminViewModel() {
+		super();
+		productsImgCache = new HashMap<String, ImageIcon>();
+	}
 	
 	@Override
 	public int getRowCount() {
@@ -46,9 +54,15 @@ public class AdminViewModel extends AbstractTableModel {
 		if(product != null){
 			switch (columnIndex) {
 				case IMG_COL:
+					if(productsImgCache.containsKey(product.getImg())){
+						return productsImgCache.get(product.getImg());
+					}
+					
 					Image img = ImageLoader.loadImage(product.getImg(), new Dimension(100, 100));
 					if(img != null){
-						return new ImageIcon(img);
+						ImageIcon icon = new ImageIcon(img);
+						productsImgCache.put(product.getImg(), icon);
+						return icon;
 					}
 					return null;
 					
