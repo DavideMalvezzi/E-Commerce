@@ -39,6 +39,7 @@ public class BasketManager {
 	 */
 	public static void addProduct(Product product, int qt){
 		basket.put(product, qt);
+		System.out.println(product.hashCode());
 		isDirty = true;
 	}
 	

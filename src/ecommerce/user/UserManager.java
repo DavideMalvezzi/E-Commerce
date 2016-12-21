@@ -7,7 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
-
 /**
  * @author Davide
  * @file
@@ -29,7 +28,7 @@ public class UserManager {
 	
 	
 	/**
-	 * @brief Costruttutore privare per evitare la creazione di un'istanza
+	 * @brief Costruttutore private per evitare la creazione di un'istanza
 	 */
 	private UserManager(){
 		

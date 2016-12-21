@@ -54,12 +54,17 @@ public class AdminViewModel extends AbstractTableModel {
 		if(product != null){
 			switch (columnIndex) {
 				case IMG_COL:
+					//If the icon is already loaded
 					if(productsImgCache.containsKey(product.getImg())){
+						//Return the cached img
 						return productsImgCache.get(product.getImg());
 					}
 					
+					//Else try to load the image
 					Image img = ImageLoader.loadImage(product.getImg(), new Dimension(100, 100));
+					//If the img exists
 					if(img != null){
+						//Add the img to the cache
 						ImageIcon icon = new ImageIcon(img);
 						productsImgCache.put(product.getImg(), icon);
 						return icon;

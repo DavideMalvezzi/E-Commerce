@@ -39,6 +39,7 @@ import javax.swing.UIManager;
 import ecommerce.basket.BasketManager;
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
+import ecommerce.product.ProductManager;
 import ecommerce.utils.ImageLoader;
 
 public class BuyProductPanel extends JPanel implements ActionListener, MouseListener, Transferable, DragSourceListener, DragGestureListener{
@@ -185,18 +186,10 @@ public class BuyProductPanel extends JPanel implements ActionListener, MouseList
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		addMouseListener(this);
 	
-		
-		//Create transfer handler for the DnD
-		setTransferHandler(new TransferHandler(TRANSFER_HANDLER_PROP){
-			protected Transferable createTransferable(JComponent c) {
-				return BuyProductPanel.this;
-			};
-		});
-		
 		//Create new DnD source
 		source = new DragSource();
 		source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
-		
+	
 	}
 	
 	public Product getProduct(){
@@ -233,7 +226,7 @@ public class BuyProductPanel extends JPanel implements ActionListener, MouseList
 	public DataFlavor[] getTransferDataFlavors() {
 		return new DataFlavor[]{
 				new DataFlavor(Product.class, "Product"),
-				new DataFlavor(Integer.class, "Qt")
+				new DataFlavor(Integer.class, "Qt"),
 			};
 	}
 
@@ -245,7 +238,7 @@ public class BuyProductPanel extends JPanel implements ActionListener, MouseList
 	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 		if(flavor.getRepresentationClass().equals(Product.class)){
-			return product;
+			return ProductManager.getProductIndex(product);
 		}
 		else if(flavor.getRepresentationClass().equals(Integer.class)){
 			return qtSpinner.getValue();
@@ -256,7 +249,7 @@ public class BuyProductPanel extends JPanel implements ActionListener, MouseList
 
 	@Override
 	public void dragGestureRecognized(DragGestureEvent dge) {
-		source.startDrag(dge, DragSource.DefaultMoveDrop, this, this);  		
+		source.startDrag(dge, DragSource.DefaultMoveDrop, this, this);  
 	}
 
 	@Override

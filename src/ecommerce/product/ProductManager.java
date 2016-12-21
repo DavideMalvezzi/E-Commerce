@@ -96,6 +96,10 @@ public class ProductManager {
 		return products == null ? 0 : products.size();
 	}
 	
+	public static int getProductIndex(Product p){
+		return products.indexOf(p);
+	}
+	
 	public static Product getProduct(int index){
 		if(index < products.size()){
 			return products.get(index);

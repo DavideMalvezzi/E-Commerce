@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.Box;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -83,6 +85,10 @@ public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 		}
 		else if(e.getSource().equals(clearBasket)){
 			BasketManager.clear();
+			reloadTotal();
+			productsPanel.removeAll();
+			productsPanel.revalidate();
+			productsPanel.repaint();
 		}
 		else if(e.getSource().equals(buyButton)){
 			if(BasketManager.getCount() > 0){

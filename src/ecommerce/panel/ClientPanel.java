@@ -196,11 +196,11 @@ public class ClientPanel extends CustomPanel implements DropTargetListener{
         if(df[0].getRepresentationClass().equals(Product.class) && df[1].getRepresentationClass().equals(Integer.class)){
         	int res = JOptionPane.showConfirmDialog(this, "Vuoi aggiungere questo oggetto al carrello?", "Aggiungere?", JOptionPane.YES_NO_OPTION);
     		if(res == JOptionPane.YES_OPTION){ 
-                try {
-    				Product p = (Product) t.getTransferData(df[0]);
+                try {                	
+    				int pIndex = (int) t.getTransferData(df[0]);
     				int qt = (int) t.getTransferData(df[1]);
     				
-    				BasketManager.addProduct(p, qt);
+    				BasketManager.addProduct(ProductManager.getProduct(pIndex), qt);
     			} catch (Exception e) {
     				e.printStackTrace();
     			}
