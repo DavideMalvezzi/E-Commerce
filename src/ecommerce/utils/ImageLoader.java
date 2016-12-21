@@ -9,9 +9,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 /**
- * @author Davide
- * @file
  * Classe contenente metodi statici per il caricamento e il resize di immagini
+ * @author Davide Malvezzi
  */
 public class ImageLoader {
 	

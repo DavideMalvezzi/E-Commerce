@@ -3,10 +3,9 @@ package ecommerce.product;
 import java.io.Serializable;
 
 /**
- * @author Davide
- * @file
  * Classe rappresentante un singolo prodotto senza sconti e offerte.
  * La classe è serializzabile per il salvataggio su file.
+ * @author Davide Malvezzi
  */
 public class Product implements Serializable{
 

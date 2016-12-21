@@ -3,10 +3,9 @@ package ecommerce.user;
 import java.io.Serializable;
 
 /**
- * @author Davide
- * @file
  * Classe rapprentante un utente che può essere anche amministratore.
  * La classe è serializzabile per il salvataggio su file.
+ * @author Davide Malvezzi
  */
 public class User implements Serializable{
 	

@@ -6,9 +6,8 @@ import ecommerce.product.Product;
 
 
 /**
- * @author Davide
- * @file
  * Classe contentente metodi statici per la gestione del singleton rappresentante il carrello dell'utente  
+ * @author Davide Malvezzi
  */
 public class BasketManager {
 

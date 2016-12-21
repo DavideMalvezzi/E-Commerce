@@ -1,9 +1,8 @@
 package ecommerce.product;
 
 /**
- * @author Davide
- * @file
  * Classe rappresentante un prodotto scontato
+ * @author Davide Malvezzi
  */
 public class DiscountedProduct extends Product{
 	

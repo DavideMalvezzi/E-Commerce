@@ -14,13 +14,31 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import ecommerce.panel.AdminPanel;
 import ecommerce.widget.model.AdminViewModel;
 
+/**
+ * Classe che implementa la vista della tabella di gestione dei prodotti inserita nell' {@link AdminPanel}
+ * @author Davide Malvezzi
+ */
 public class AdminProductView extends JScrollPane {
 
+	/**
+	 * @var model
+	 * Modello utilizzato dalla vista
+	 */
 	private AbstractTableModel model;
+	
+	/**
+	 * @var table
+	 * Tabella a cui è applicata la vista
+	 */
 	protected JTable table;
 		
+	/**
+	 * @brief Costruttore
+	 * @param m Modello da utilizzare
+	 */
 	public AdminProductView(AbstractTableModel m) {
 		super();
 		
@@ -62,6 +80,9 @@ public class AdminProductView extends JScrollPane {
 		refresh();
 	}
 	
+	/**
+	 * @brief Ricarica i valori contenuti nella tabella ed effettua resize intelligente delle colonne
+	 */
 	public void refresh(){
 		model.fireTableDataChanged();
 		for (int i = 0; i < table.getColumnCount(); i++) {
@@ -69,11 +90,20 @@ public class AdminProductView extends JScrollPane {
         }	
 	}
 	
+	/**
+	 * @brief Ritorna l'indice della riga selezionata
+	 * @return Indice riga selezionata o -1 se nessuna riga è selezionata
+	 */
 	public int getSelectedRow(){
 		return table.getSelectedRow();
 	}
 	
-	
+	/**
+	 * @brief Effettua resize intelligente delle colonne per adattarle al contenuto
+	 * @param table Tabella a cui effettuare il resize
+	 * @param column Colonna a cui effettuare il resize
+	 * @param margin Margine
+	 */
 	private static void adjustColumnSizes(JTable table, int column, int margin) {
         DefaultTableColumnModel colModel = (DefaultTableColumnModel) table.getColumnModel();
         TableColumn col = colModel.getColumn(column);

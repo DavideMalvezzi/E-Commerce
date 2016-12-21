@@ -35,9 +35,8 @@ import ecommerce.utils.ImageLoader;
 import ecommerce.utils.JTextFieldFilter;
 
 /**
- * @author Davide
- * @file
  * Dialog per la creazione/modifica dei dati di un prodotto
+ * @author Davide Malvezzi
  */
 public class CreateProductDialog extends JDialog implements ActionListener, MouseListener, ItemListener{
 	

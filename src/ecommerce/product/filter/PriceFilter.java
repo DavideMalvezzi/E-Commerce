@@ -3,9 +3,8 @@ package ecommerce.product.filter;
 import ecommerce.product.Product;
 
 /**
- * @author Davide
- * @file
  * Filtro di ricerca prodotti in base ad una fascia di prezzi
+ * @author Davide Malvezzi
  */
 public class PriceFilter extends ProductFilter{
 

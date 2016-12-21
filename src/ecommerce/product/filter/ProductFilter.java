@@ -3,9 +3,8 @@ package ecommerce.product.filter;
 import ecommerce.product.Product;
 
 /**
- * @author Davide
- * @file
  * Classe base per la creazione di filtri ricerca dei prodotti
+ * @author Davide Malvezzi
  */
 public abstract class ProductFilter {
 

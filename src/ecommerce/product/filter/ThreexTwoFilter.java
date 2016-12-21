@@ -3,11 +3,9 @@ package ecommerce.product.filter;
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 
-
 /**
- * @author Davide
- * @file
  * Filtro di ricerca prodotti in base all'offerta 3x2
+ * @author Davide Malvezzi
  */
 public class ThreexTwoFilter extends ProductFilter{
 

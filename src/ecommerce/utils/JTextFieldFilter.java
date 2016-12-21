@@ -5,9 +5,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 /**
- * @author Davide
- * @file
  * Estensione di PlainDocument per il filtraggio dei caratteri inseribili in una JTextFiled
+ * @author Davide Malvezzi
  */
 public class JTextFieldFilter extends PlainDocument {
 	    

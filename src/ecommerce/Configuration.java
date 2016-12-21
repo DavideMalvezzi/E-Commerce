@@ -8,10 +8,9 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
- * @author Davide
- * @file
  * Classe contentente metodi statici per la gestione del singleton rappresentante le configurazioni del programma.
  * La classe è serializzabile per il salvataggio su file.  
+ * @author Davide
  */
 public class Configuration implements Serializable{
 

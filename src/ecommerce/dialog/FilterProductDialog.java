@@ -33,9 +33,8 @@ import ecommerce.product.filter.ProductFilter;
 import ecommerce.product.filter.ThreexTwoFilter;
 
 /**
- * @author Davide
- * @file
  * Dialog per la selezione dei filtri da applicare alla visualizzazione dei prodotti
+ * @author Davide Malvezzi
  */
 public class FilterProductDialog extends JDialog implements ActionListener, ItemListener, ChangeListener{
 

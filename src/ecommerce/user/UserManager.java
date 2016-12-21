@@ -8,9 +8,8 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 /**
- * @author Davide
- * @file
  * Classe contentente metodi statici per la gestione del singleton rappresentante l'insieme degli utenti 
+ * @author Davide Malvezzi
  */
 public class UserManager {
 	

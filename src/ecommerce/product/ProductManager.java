@@ -11,15 +11,28 @@ import java.util.Vector;
 
 import ecommerce.Configuration;
 
-
+/**
+ * Classe contentente metodi statici per la gestione del singleton rappresentante l'insieme dei prodotti.
+ * @author Davide Malvezzi
+ */
 public class ProductManager {
 	
+	/**
+	 * @var isDirty
+	 * Valore booleano che indica se il carrello è stato modificato dall'ultima visualizzazione
+	 */
 	private static boolean isDirty = true;
 	
-	//Products vector
+	/**
+	 * @var products
+	 * Vettore che contiene le istante di tutti i prodotti
+	 */	
 	private static Vector<Product> products = null;
 	
 	
+	/**
+	 * @brief Costruttutore private per evitare la creazione di un'istanza
+	 */
 	private ProductManager() {
 	
 	}

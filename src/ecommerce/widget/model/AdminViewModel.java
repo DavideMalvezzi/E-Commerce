@@ -7,38 +7,97 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
+import ecommerce.panel.AdminPanel;
 import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 import ecommerce.product.ProductManager;
 import ecommerce.utils.ImageLoader;
 
+/**
+ * Classe che implementa il modello della tabella di gestione dei prodotti inserita nell' {@link AdminPanel}
+ * @author Davide Malvezzi
+ */
 public class AdminViewModel extends AbstractTableModel {
 
+	/**
+	 * @var IMG_COL
+	 * Indice della colonna contenente le immagini dei prodotti
+	 */
 	public static final int IMG_COL = 0;
+	
+	/**
+	 * @var CODE_COL
+	 * Indice della colonna contenente il codice dei prodotti
+	 */
 	public static final int CODE_COL = 1;
+	
+	/**
+	 * @var NAME_COL
+	 * Indice della colonna contenente il nome dei prodotti
+	 */
 	public static final int NAME_COL = 2;
+	
+	/**
+	 * @var BRAND_COL
+	 * Indice della colonna contenente la marca dei prodotti
+	 */
 	public static final int BRAND_COL = 3;
+	
+	/**
+	 * @var CATEGORY_COL
+	 * Indice della colonna contenente la categoria dei prodotti
+	 */
 	public static final int CATEGORY_COL = 4;
+	
+	/**
+	 * @var PRICE_COL
+	 * Indice della colonna contenente il prezzo dei prodotti
+	 */
 	public static final int PRICE_COL = 5;
+	
+	/**
+	 * @var OFFER_COL
+	 * Indice della colonna contenente le offerte dei prodotti 
+	 */
 	public static final int OFFER_COL = 6;
 	
+	/**
+	 * @var productsImgCache
+	 * HashMap che ad ogni path l'immagina associa l'immagine relativa.
+	 */
 	private HashMap<String, ImageIcon> productsImgCache;
-	
+
+	/**
+	 * @brief Costruttore
+	 */
 	public AdminViewModel() {
 		super();
 		productsImgCache = new HashMap<String, ImageIcon>();
 	}
 	
+	/**
+	 * @brief Implementazione del metodo di {@link AbstractTableModel}
+	 * @return Numero di righe della tabella
+	 */
 	@Override
 	public int getRowCount() {
 		return ProductManager.getProductCount();
 	}
 
+	/**
+	 * @brief Implementazione del metodo di {@link AbstractTableModel}
+	 * @return Numero di colonne della tabella
+	 */
 	@Override
 	public int getColumnCount() {
 		return 7;
 	}
 	
+	/**
+	 * @brief Implementazione del metodo di {@link AbstractTableModel}
+	 * @param columnIndex Indice della colonna
+	 * @return Tipologia di classe contenuta in una specifica colonna
+	 */
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		if(columnIndex == IMG_COL){
@@ -47,6 +106,12 @@ public class AdminViewModel extends AbstractTableModel {
 		return String.class;
 	}
 
+	/**
+	 * @brief Implementazione del metodo di {@link AbstractTableModel}
+	 * @param rowIndex Indice della riga
+	 * @param columnIndex Indice della colonna
+	 * @return Ritorna l'oggetto contenuto in una cella della tabella
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		Product product = ProductManager.getProduct(rowIndex);
@@ -100,6 +165,11 @@ public class AdminViewModel extends AbstractTableModel {
 		return "";
 	}
 	
+	/**
+	 * @brief Implementazione del metodo di {@link AbstractTableModel}
+	 * @param columnIndex Indice della colonna
+	 * @return Ritorna il nome della colonna 
+	 */
 	@Override
 	public String getColumnName(int column) {
 		switch (column) {
@@ -128,6 +198,10 @@ public class AdminViewModel extends AbstractTableModel {
 		return "";
 	}
 	
+	/**
+	 * @brief Implementazione del metodo di {@link AbstractTableModel}
+	 * @return Disabilita la modifica delle celle
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
 		return false;

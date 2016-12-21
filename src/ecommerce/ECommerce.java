@@ -1,12 +1,15 @@
 package ecommerce;
 
 
-import ecommerce.panel.ClientPanel;
 import ecommerce.panel.LoginPanel;
 import ecommerce.panel.PanelManager;
 import ecommerce.product.ProductManager;
 import ecommerce.user.UserManager;
 
+/**
+ * Classe contenente il main del programma
+ * @author Davide Malvezzi
+ */
 public class ECommerce {
 
 	public static void main(String[] args) {
@@ -21,7 +24,7 @@ public class ECommerce {
 		
 		//Create the main program window and all the panels
 		PanelManager pm = new PanelManager();
-		pm.setCurrentPanel(ClientPanel.TAG);
+		pm.setCurrentPanel(LoginPanel.TAG);
 			
 	}
 	

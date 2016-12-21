@@ -1,9 +1,8 @@
 package ecommerce.product;
 
 /**
- * @author Davide
- * @file
  * Classe rappresentate prodotto soggetto all'offerta 3x2
+ * @author Davide Malvezzi
  */
 public class Product3x2 extends Product {
 	

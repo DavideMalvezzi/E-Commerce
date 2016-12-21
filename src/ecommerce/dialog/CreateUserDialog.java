@@ -16,9 +16,8 @@ import ecommerce.user.User;
 import ecommerce.user.UserManager;
 
 /**
- * @author Davide
- * @file
  * Dialog per la creazione di un nuovo utente
+ * @author Davide Malvezzi
  */
 public class CreateUserDialog extends JDialog implements ActionListener {
 

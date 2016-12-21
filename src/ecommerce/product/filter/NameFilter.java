@@ -2,11 +2,9 @@ package ecommerce.product.filter;
 
 import ecommerce.product.Product;
 
-
 /**
- * @author Davide
- * @file
  * Filtro di ricerca prodotti in base al nome
+ * @author Davide Malvezzi
  */
 public class NameFilter extends ProductFilter{
 	

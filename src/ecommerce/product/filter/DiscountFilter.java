@@ -3,9 +3,8 @@ package ecommerce.product.filter;
 import ecommerce.product.Product;
 
 /**
- * @author Davide
- * @file
  * Filtro di ricerca prodotti in base allo sconto
+ * @author Davide Malvezzi
  */
 public class DiscountFilter extends ProductFilter{
 	
