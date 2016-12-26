@@ -10,9 +10,16 @@ import javax.swing.JPanel;
 
 import ecommerce.utils.ImageLoader;
 
-
+/**
+ * Classe che implementa la finestra principale del programma
+ * @author Davide Malvezzi
+ */
 public class PanelManager extends JFrame {
 	
+	/**
+	 * @var container
+	 * Panello principale in cui verranno mostrate le varie schermate del programma
+	 */
 	private JPanel container;
 	
 	public PanelManager() {
@@ -25,7 +32,6 @@ public class PanelManager extends JFrame {
 		container.add(new BasketPanel(this), BasketPanel.TAG);
 		container.add(new BuyPanel(this), BuyPanel.TAG);
 
-		
 		add(container);
 		
 		//Set windows settings
@@ -38,6 +44,10 @@ public class PanelManager extends JFrame {
 		setVisible(true);
 	}
 	
+	/**
+	 * Cambia la schermata corrente con un'altra
+	 * @param panelName Tag associato alla schermata da mostrare
+	 */
 	public void setCurrentPanel(String panelName){
 		CardLayout cl = (CardLayout)(container.getLayout());
         cl.show(container, panelName);   

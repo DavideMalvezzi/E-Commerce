@@ -14,7 +14,7 @@ import ecommerce.product.ProductManager;
 import ecommerce.utils.ImageLoader;
 
 /**
- * Classe che implementa il modello della tabella di gestione dei prodotti inserita nell' {@link AdminPanel}
+ * Classe che implementa il modello della tabella di gestione dei prodotti inserita nell' {@link AdminPanel.java}
  * @author Davide Malvezzi
  */
 public class AdminViewModel extends AbstractTableModel {

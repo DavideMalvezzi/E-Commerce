@@ -20,18 +20,52 @@ import ecommerce.product.Product;
 import ecommerce.utils.WrapLayout;
 import ecommerce.widget.BasketProductPanel;
 
+/**
+ * Classe che implementa la schermata di gestione dei prodotti nel carrello
+ * @author Davide Malvezzi
+ */
 public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 	
+	/**
+	 * @var TAG
+	 * Tag univoco utilizzato per identificare questa schermata
+	 */
 	public static final String TAG = "basket";
 
+	/**
+	 * @var backButton
+	 * Bottone per tornare alla schermata precedente
+	 */
 	private JButton backButton;
+	
+	/**
+	 * @var clearBasket
+	 * Bottone per rimuovere tutti i prodotti nel carrello
+	 */
 	private JButton clearBasket;
+	
+	/**
+	 * @var buyButton
+	 * Bottone per passare alla schermata di acquisto
+	 */
 	private JButton buyButton;
 	
+	/**
+	 * @var totLabel
+	 * Label contenente il totale dei prodtti nel carrello
+	 */
 	private JLabel totLabel;
 	
+	/**
+	 * @var productsPanel
+	 * Pannello contenente tutti i prodotti
+	 */
 	private JPanel productsPanel;
 		
+	/**
+	 * Costruttore
+	 * @param panelManager Finestra
+	 */
 	public BasketPanel(PanelManager panelManager) {
 		super(panelManager);
 	
@@ -63,15 +97,20 @@ public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 		add(new JScrollPane(productsPanel), BorderLayout.CENTER);
 	}
 	
+	/**
+	 * @brief Carica tutti prodotti presenti nel carrello
+	 */
 	@Override
 	public void onEnter() {
+		//If the basket is dirty
 		if(BasketManager.isDirty()){
+			//Remove all products
 			productsPanel.removeAll();
-					
+			//Loadd all new products
 			for(int i = 0; i < BasketManager.getCount(); i++){
 				productsPanel.add(new BasketProductPanel(BasketManager.getProduct(i), BasketManager.getProductQuantity(i), this));
 			}
-			
+			//Clean the basket
 			BasketManager.setDirty(false);
 		}
 		
@@ -80,9 +119,11 @@ public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Go back
 		if(e.getSource().equals(backButton)){
 			panelManager.setCurrentPanel(ClientPanel.TAG);
 		}
+		//Clear basket
 		else if(e.getSource().equals(clearBasket)){
 			BasketManager.clear();
 			reloadTotal();
@@ -90,6 +131,7 @@ public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 			productsPanel.revalidate();
 			productsPanel.repaint();
 		}
+		//Go to buy panel
 		else if(e.getSource().equals(buyButton)){
 			if(BasketManager.getCount() > 0){
 				panelManager.setCurrentPanel(BuyPanel.TAG);
@@ -104,6 +146,9 @@ public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 		
 	}
 	
+	/**
+	 * @brief Calcolo del costo totale dei prodotti
+	 */
 	private void reloadTotal() {
 		float total = 0;
 		for(int i = 0; i < BasketManager.getCount(); i++){
@@ -112,6 +157,9 @@ public class BasketPanel extends CustomPanel implements BasketProductRemoved {
 		totLabel.setText(String.format("%.2f", total));
 	}
 
+	/**
+	 * @brief Rimuove un prodotto e ricalcola il totale
+	 */
 	@Override
 	public void onBasketProductRemoved(BasketProductPanel basketProductPanel) {
 		Product product = basketProductPanel.getProduct();

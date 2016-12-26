@@ -18,7 +18,7 @@ import ecommerce.panel.AdminPanel;
 import ecommerce.widget.model.AdminViewModel;
 
 /**
- * Classe che implementa la vista della tabella di gestione dei prodotti inserita nell' {@link AdminPanel}
+ * Classe che implementa la vista della tabella di gestione dei prodotti inserita nell' {@link AdminPanel.java}
  * @author Davide Malvezzi
  */
 public class AdminProductView extends JScrollPane {

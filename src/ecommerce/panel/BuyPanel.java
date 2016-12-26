@@ -1,6 +1,5 @@
 package ecommerce.panel;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -21,26 +20,100 @@ import javax.swing.JTextField;
 import ecommerce.basket.BasketManager;
 import ecommerce.utils.JTextFieldFilter;
 
+/**
+ * Classe che implementa la schermata di acquisto dei prodotti
+ * @author Davide Malvezzi
+ */
 public class BuyPanel extends CustomPanel implements KeyListener {
 	
+	/**
+	 * @var TAG
+	 * Tag univoco utilizzato per identificare questa schermata
+	 */
 	public static final String TAG = "buy";
 
+	/**
+	 * @var userField
+	 * Casella di testo per l'immissione del nome e cognome
+	 */
 	private JTextField userField;
+	
+	/**
+	 * @var addressField
+	 * Casella di testo per l'immissione dell'indirizzo di spedizione
+	 */
 	private JTextField addressField;
+	
+	/**
+	 * @var cityField
+	 * Casella di testo per l'immissione della città di spedizione
+	 */
 	private JTextField cityField;
+	
+	/**
+	 * @var provinceField
+	 * Casella di testo per l'immissione della provincia di spedizione
+	 */
 	private JTextField provinceField;
+	
+	/**
+	 * @var capField
+	 * Casella di testo per l'immissione del CAP
+	 */
 	private JTextField capField;
+	
+	/**
+	 * @var phoneField
+	 * Casella di testo per l'immissione del numero di telefono
+	 */
 	private JTextField phoneField;
 	
+	/**
+	 * @var paymentCombo
+	 * Combobox per la scelta del metodo di pagamento
+	 */
 	private JComboBox<String> paymentCombo;
+	
+	/**
+	 * @var ownerField
+	 * Casella di testo per l'immissione del proprietario della carta
+	 */
 	private JTextField ownerField;
+	
+	/**
+	 * @var cardField
+	 * Casella di testo per l'immissione del numero della carta
+	 */
 	private JTextField cardField;
+	
+	/**
+	 * @var monthCombo
+	 * Combobox per la scelta del mese di scadenza della carta
+	 */
 	private JComboBox<String> monthCombo;
+	
+	/**
+	 * @var yearCombo
+	 * Combobox per la scelta dell'anno di scadenza della carta
+	 */
 	private JComboBox<String> yearCombo;
 
+	/**
+	 * @var okButton
+	 * Bottone di conferma dell'acquisto
+	 */
 	private JButton okButton;
+	
+	/**
+	 * @var cancelButton
+	 * Bottone per annullare l'acquisto e tornare al carrello 
+	 */
 	private JButton cancelButton;
 	
+	/**
+	 * @brief Costruttore
+	 * @param panelManager Finestra
+	 */
 	public BuyPanel(PanelManager panelManager) {
 		super(panelManager);
 		
@@ -214,11 +287,13 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Go back to basket panel
 		if(e.getSource().equals(cancelButton)){
 			panelManager.setCurrentPanel(BasketPanel.TAG);
 		}
+		
 		else if(e.getSource().equals(okButton)){
-			
+			//Check if at least a field is empty 
 			if(userField.getText().replaceAll(" ", "").length() == 0 ||
 					addressField.getText().replaceAll(" ", "").length() == 0 ||
 					cityField.getText().replaceAll(" ", "").length() == 0 ||
@@ -228,6 +303,7 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 				
 				JOptionPane.showMessageDialog(this, "Uno dei campi relativi al punto di consegna è vuoto", "Errore", JOptionPane.ERROR_MESSAGE);
 			}
+			//Check if at least a field is empty 
 			else if(ownerField.getText().replaceAll(" ", "").length() == 0 || cardField.getText().replaceAll(" ", "").length() == 0){
 				JOptionPane.showMessageDialog(this, "Uno dei campi relativi al metodo di pagamento è vuoto", "Errore", JOptionPane.ERROR_MESSAGE);
 			}
@@ -244,6 +320,7 @@ public class BuyPanel extends CustomPanel implements KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		//Max 5 digit in the cap field
 		if(e.getSource().equals(capField)){
 			if(capField.getText().length() > 4){
 				capField.setText(capField.getText().substring(0, 4));

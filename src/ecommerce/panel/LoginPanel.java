@@ -20,16 +20,52 @@ import ecommerce.dialog.CreateUserDialog;
 import ecommerce.user.User;
 import ecommerce.user.UserManager;
 
+/**
+ * Classe che implementa la schermata di login
+ * @author Davide
+ */
 public class LoginPanel extends CustomPanel {
 	
+	/**
+	 * @var TAG
+	 * Tag univoco utilizzato per identificare questa schermata
+	 */
 	public static final String TAG = "login";
 	
+	/**
+	 * @var usernameField
+	 * Casella di testo per l'inserimento dell'username
+	 */
 	private JTextField usernameField;
+	
+	/**
+	 * @var passwordField
+	 * Casella di testo per l'inserimento della password
+	 */
 	private JPasswordField passwordField;
+	
+	/**
+	 * @var errorLabel
+	 * Label utilizzata per mostrare eventuali errori
+	 */
 	private JLabel errorLabel;
+	
+	/**
+	 * @var usernameField
+	 * Bottone per effettuare il login
+	 */ 
 	private JButton loginButton;
+	
+	/**
+	 * @var createButton
+	 * Bottone per creare un nuovo utente
+	 */
 	private JButton createButton;
 
+	/**
+	 * Costruttore
+	 * @param panelManager Finestra
+	 */
 	public LoginPanel(PanelManager panelManager) {	
 		super(panelManager);
 		
@@ -127,6 +163,10 @@ public class LoginPanel extends CustomPanel {
 		
 	}
 
+	
+	/**
+	 * @brief Reset dei campi di login
+	 */
 	@Override
 	public void onEnter() {
 		//Check if at least one user exists
@@ -139,6 +179,10 @@ public class LoginPanel extends CustomPanel {
 		errorLabel.setText("");
 	}
 
+	/**
+	 * @brief Funzione che controlla la presenza di almeno un utente.
+	 * Se non esiste nessun utente si chiede la creazione di un utente amministratore
+	 */
 	private void checkUsers(){
 		//If there aren't users create the admin user first
 		if(UserManager.getUserCount() == 0){
@@ -199,6 +243,7 @@ public class LoginPanel extends CustomPanel {
 		}
 		
 		else if(e.getSource().equals(createButton)){
+			//Create a new user
 			CreateUserDialog cuDialog = new CreateUserDialog();
 			cuDialog.setVisible(true);
 			

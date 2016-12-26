@@ -27,21 +27,41 @@ import ecommerce.product.Product;
 import ecommerce.product.Product3x2;
 import ecommerce.utils.ImageLoader;
 
+/**
+ * Classe che implementa un widget per la presentazione di un prodotto inserito all'interno del carrello della spesa
+ * @author Davide Malvezzi
+ */
 public class BasketProductPanel extends JPanel implements ActionListener{
 
-
+	/**
+	 * @var removeButton
+	 * Bottone per la rimozione del prodotto dal carrello
+	 */
 	private JButton removeButton;
+	
+	/**
+	 * @var product
+	 * Riferimento al prodotto da visualizzare
+	 */
 	private Product product;
 	
+	/**
+	 * @var removeListener
+	 * Riferimento al listener da invocare alla pressione del bottone di rimozione
+	 */
 	private BasketProductRemoved removeListener;
 	
-	
+	/**
+	 * @brief Costruttore
+	 * @param product Prodotto da visualizzare
+	 * @param qt Quantità associata al prodotto 
+	 * @param removeListener Listener per intercettare la pressione del tasto di rimozione
+	 */
 	public BasketProductPanel(Product product, int qt, BasketProductRemoved removeListener) {
 		this.product = product;
 		this.removeListener = removeListener;
 		
 		JLabel imgLabel = new JLabel();
-		
 		imgLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		imgLabel.setPreferredSize(new Dimension(150, 150));
 		imgLabel.setMinimumSize(imgLabel.getPreferredSize());
@@ -102,12 +122,10 @@ public class BasketProductPanel extends JPanel implements ActionListener{
 		totLabel.setFont(new Font(totLabel.getFont().getFontName(), Font.PLAIN, 20));
 		totLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-
 		removeButton = new JButton("Rimuovi dal carrello");
 		removeButton.addActionListener(this);
 		removeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		add(imgLabel);
@@ -119,13 +137,22 @@ public class BasketProductPanel extends JPanel implements ActionListener{
 				
 	}
 	
+	/**
+	 * @brief Ritorna il riferimento al prodotto visualizzato
+	 * @return Riferimento al prodotto
+	 */
 	public Product getProduct() {
 		return product;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		removeListener.onBasketProductRemoved(this);
+		//Call the remove listener function
+		if(e.getSource().equals(removeButton)){
+			if(removeListener != null){
+				removeListener.onBasketProductRemoved(this);
+			}
+		}
 	}
 
 }

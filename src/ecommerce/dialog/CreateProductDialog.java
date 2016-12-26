@@ -375,6 +375,7 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 				product = new Product3x2();
 			}
 			
+			//Check if there is at aleast one field empty
 			if(codeField.getText().replaceAll(" ", "").length() == 0 ||
 				nameField.getText().replaceAll(" ", "").length() == 0 ||
 				categoryField.getText().replaceAll(" ", "").length() == 0 ||
@@ -382,7 +383,6 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 				Float.parseFloat(priceField.getText()) <= 0){
 				
 				JOptionPane.showMessageDialog(this, "Uno dei campi relativi al prodotto è vuoto", "Errore", JOptionPane.ERROR_MESSAGE);
-				
 			}
 			else{
 				//Set product attributes
@@ -395,8 +395,6 @@ public class CreateProductDialog extends JDialog implements ActionListener, Mous
 				product.setImg(imagePath);
 				dispose();
 			}
-			
-		
 		}
 		
 	}

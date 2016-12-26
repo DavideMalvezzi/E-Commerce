@@ -1,9 +1,11 @@
 package ecommerce.widget;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -19,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
@@ -27,13 +30,11 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.BevelBorder;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 
 import ecommerce.basket.BasketManager;
@@ -42,16 +43,42 @@ import ecommerce.product.Product3x2;
 import ecommerce.product.ProductManager;
 import ecommerce.utils.ImageLoader;
 
+/**
+ * Classe che implementa un widget per la presentazione di un prodotto per essere acquistato.
+ * E' anche implementato il drag'n drop del componente per l'aggiunta al carrello
+ * @author Davide Malvezzi
+ */
 public class BuyProductPanel extends JPanel implements ActionListener, MouseListener, Transferable, DragSourceListener, DragGestureListener{
 
+	/**
+	 * @var product
+	 * Riferimento al prodotto da mostrare
+	 */
 	private Product product;
+	
+	/**
+	 * @var qtSpinner
+	 * Spinner contenente il numero di prodotti da acquistare
+	 */
 	private JSpinner qtSpinner;
+	
+	/**
+	 * @var addCartButton
+	 * Bottone per l'aggiunta al carrello
+	 */
 	private JButton addCartButton;
 
+	/**
+	 * @var source
+	 * Oggetto utilizzato per inizializzare un'azione di drag'n drop
+	 */
     private DragSource source;
     
-    public static final String TRANSFER_HANDLER_PROP = "ProductPanel";
-	
+
+    /**
+     * @brief Costruttore
+     * @param product Rifermimento al prodotto da mostrare
+     */
 	public BuyProductPanel(Product product) {
 		this.product = product;
 		
@@ -181,23 +208,26 @@ public class BuyProductPanel extends JPanel implements ActionListener, MouseList
 					)
 					.addGap(16)
 		);
-		
-		
-		setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		addMouseListener(this);
-	
+			
 		//Create new DnD source
 		source = new DragSource();
 		source.createDefaultDragGestureRecognizer(this, DnDConstants.ACTION_MOVE, this);
 	
+		setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		addMouseListener(this);
 	}
 	
+	/**
+	 * @brief Ritorna un riferimento al prodotto visualizzato
+	 * @return Riferimento al prodotto
+	 */
 	public Product getProduct(){
 		return product;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Add product to basket
 		if(e.getSource().equals(addCartButton)){
 			BasketManager.addProduct(product, (int) qtSpinner.getValue());
 		}
@@ -214,16 +244,19 @@ public class BuyProductPanel extends JPanel implements ActionListener, MouseList
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		//Set product select background color
 		setBackground(UIManager.getColor("List.selectionBackground"));
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		//Set product deselect background color
 		setBackground(UIManager.getColor("Panel.background"));	
 	}
 
 	@Override
 	public DataFlavor[] getTransferDataFlavors() {
+		//Return an array contaning transfer data meta-class
 		return new DataFlavor[]{
 				new DataFlavor(Product.class, "Product"),
 				new DataFlavor(Integer.class, "Qt"),
@@ -249,7 +282,10 @@ public class BuyProductPanel extends JPanel implements ActionListener, MouseList
 
 	@Override
 	public void dragGestureRecognized(DragGestureEvent dge) {
-		source.startDrag(dge, DragSource.DefaultMoveDrop, this, this);  
+		BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
+		paint(img.createGraphics());
+		//source.startDrag(dge, DragSource.DefaultMoveDrop, this, this);  
+		source.startDrag(dge, Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR), img, new Point(img.getWidth() / 2, img.getHeight() / 2), this, this);
 	}
 
 	@Override
@@ -266,6 +302,7 @@ public class BuyProductPanel extends JPanel implements ActionListener, MouseList
 
 	@Override
 	public void dragDropEnd(DragSourceDropEvent dsde) {
+		//Deselect the product at the drop end
 		setBackground(UIManager.getColor("Panel.background"));	
 		repaint();
 	}

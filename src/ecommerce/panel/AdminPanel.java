@@ -15,20 +15,65 @@ import ecommerce.product.ProductManager;
 import ecommerce.widget.model.AdminViewModel;
 import ecommerce.widget.view.AdminProductView;
 
+/**
+ * Classe che implementa la schermata di amministrazione dei prodotti
+ * @author Davide Malvezzi
+ */
 public class AdminPanel extends CustomPanel {
 
+	/**
+	 * @var TAG
+	 * Tag univoco utilizzato per identificare questa schermata
+	 */
 	public static final String TAG = "admin";
 	
+	/**
+	 * @var backButton
+	 * Bottone per tornare alla schermata precedente
+	 */
 	private JButton backButton;
+	
+	/**
+	 * @var loadButton
+	 * Bottone per caricare file dei prodotti
+	 */
 	private JButton loadButton;
+	
+	/**
+	 * @var saveButton
+	 * Bottone per salvare file dei prodotti
+	 */
 	private JButton saveButton;
+	
+	/**
+	 * @var addButton
+	 * Bottone per aggiungere un prodotto
+	 */
 	private JButton addButton;
+	
+	/**
+	 * @var editButton
+	 * Bottone per modificare un prodotto
+	 */
 	private JButton editButton;
+
+	/**
+	 * @var removeButton
+	 * Bottone per rimuovere un prodotto
+	 */
 	private JButton removeButton;
 	
+	/**
+	 * @var productView
+	 * Tabella dei prodotti
+	 */
 	private AdminProductView productView;
 
 
+	/**
+	 * Costruttore
+	 * @param panelManager Finestra
+	 */
 	public AdminPanel(PanelManager panelManager) {
 		super(panelManager);
 				
@@ -61,6 +106,9 @@ public class AdminPanel extends CustomPanel {
 	
 	}
 	
+	/**
+	 * @brief All'ingresso della schermata ricarica i prodotti
+	 */
 	@Override
 	public void onEnter() {
 		//Load the products
@@ -70,10 +118,11 @@ public class AdminPanel extends CustomPanel {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		//Go back to login panel
 		if(e.getSource().equals(backButton)){
 			panelManager.setCurrentPanel(LoginPanel.TAG);
 		}
-		
+		//Load a new product file
 		else if(e.getSource().equals(loadButton)){
 			//Load a product file and set new file path in the configurations file
 			JFileChooser fileChooser = new JFileChooser();
@@ -89,13 +138,13 @@ public class AdminPanel extends CustomPanel {
 				productView.refresh();
 			}
 		}
-		
+		//Save the products file
 		else if(e.getSource().equals(saveButton)){
 			if(!ProductManager.saveProducts()){
 				JOptionPane.showMessageDialog(this, "Errore durante il salvataggio del file dei prodotti.", "Errore", JOptionPane.ERROR_MESSAGE);
 			}
 		}
-		
+		//Add a product
 		else if(e.getSource().equals(addButton)){
 			CreateProductDialog cpDialog = new CreateProductDialog();
 			cpDialog.setVisible(true);
@@ -104,7 +153,7 @@ public class AdminPanel extends CustomPanel {
 				productView.refresh();
 			}
 		}
-		
+		//Edit the current selected product
 		else if(e.getSource().equals(editButton)){
 			int index = productView.getSelectedRow();
 			if(index != -1){
@@ -117,6 +166,7 @@ public class AdminPanel extends CustomPanel {
 				}
 			}
 		}
+		//Remove the current selected product
 		else if(e.getSource().equals(removeButton)){
 			int index = productView.getSelectedRow();
 			if(index != -1){
